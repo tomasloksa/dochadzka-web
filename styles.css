@@ -1,0 +1,90 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+footer {
+  margin-top: auto;
+}
+
+h1 {
+  margin: 0;
+  padding: 1rem 3.3rem;
+  color: #3f96b3;
+  background-color: #add8e6;
+}
+
+@media only screen and (max-width: 600px) {
+  h1 {
+    text-align: center;
+  }
+}
+
+.content {
+  padding: 0 2rem;
+}
+
+.navbar {
+  background-color: #71b5cc;
+}
+
+@media only screen and (min-width: 600px) {
+  .navbar {
+    padding: 0 2rem;
+  }
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #3f96b3;
+}
+
+.button {
+  display: block;
+  height: 3rem;
+  width: 10rem;
+  border: 1px solid #000;
+}
+
+.footer {
+  padding: 0 2rem;
+}
+
+.img-preview {
+  display: block;
+  padding-top: 1.5rem;
+  margin: auto;
+  max-height: 45rem;
+}
+
+.btn {
+  text-decoration: none;
+  padding: 8px 16px;
+}
+
+.btn-primary {
+  background-color: #71b5cc;
+}
+
+.btn-primary:hover {
+  background-color: #3f96b3;
+}
+
+.contact-form {
+  padding-top: 1rem;
+}
+/*# sourceMappingURL=styles.css.map */
