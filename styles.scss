@@ -23,6 +23,7 @@ h1 {
   background-color: #add8e6;
   @media only screen and (max-width: $mobile-size) {
     text-align: center;
+    padding: 1rem 0;
   }
 }
 
@@ -62,6 +63,7 @@ h1 {
   padding-top: 1.5rem;
   margin: auto;
   max-height: 45rem;
+  max-width: 100%;
 }
 
 .btn {

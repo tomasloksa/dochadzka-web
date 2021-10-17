@@ -27,6 +27,7 @@ h1 {
 @media only screen and (max-width: 600px) {
   h1 {
     text-align: center;
+    padding: 1rem 0;
   }
 }
 
@@ -69,6 +70,7 @@ h1 {
   padding-top: 1.5rem;
   margin: auto;
   max-height: 45rem;
+  max-width: 100%;
 }
 
 .btn {

@@ -25,13 +25,13 @@
       <h3>Kontaktný formulár</h3>
       <form>
         <label for="name">Meno:</label><br>
-        <input type="text" id="name" name="name"><br>
+        <input type="text" id="name" name="name" placeholder="Meno a Priezvisko"><br>
 
         <label for="contact">Kontakt:</label><br>
-        <input type="text" id="contact" name="contact"><br>
+        <input type="text" id="contact" name="contact" placeholder="Tel. alebo Email"><br>
 
         <label for="message">Správa:</label><br>
-        <textarea id="message" name="message"></textarea><br>
+        <textarea id="message" name="message" placeholder="Správa"></textarea><br>
 
         <input type="submit" value="Odoslať">
       </form>
