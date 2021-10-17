@@ -6,7 +6,7 @@
 
 <body>
 	<header>
-    <?php include("shared/header.html"); ?>
+    <?php include("shared/header.php"); ?>
 	</header>
 
   <div class="content">

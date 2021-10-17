@@ -44,14 +44,11 @@ h1 {
     &:hover {
       background-color: $color-primary-active;
     }
-  }
-}
 
-.button {
-  display: block;
-  height: 3rem;
-  width: 10rem;
-  border: 1px solid #000;
+    &.active {
+      background-color: $color-primary-active;
+    }
+  }
 }
 
 .footer {
@@ -73,6 +70,7 @@ h1 {
 
 .btn-primary {
   background-color: $color-primary;
+  color: white;
   
   &:hover {
     background-color: $color-primary-active;

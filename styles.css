@@ -54,11 +54,8 @@ h1 {
   background-color: #3f96b3;
 }
 
-.button {
-  display: block;
-  height: 3rem;
-  width: 10rem;
-  border: 1px solid #000;
+.navbar a.active {
+  background-color: #3f96b3;
 }
 
 .footer {
@@ -80,6 +77,7 @@ h1 {
 
 .btn-primary {
   background-color: #71b5cc;
+  color: white;
 }
 
 .btn-primary:hover {
