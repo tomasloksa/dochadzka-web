@@ -6,29 +6,47 @@
   <h1 class="heading">Dochádzkový systém</h1>
 </div>
 
-<div class="w3-bar navbar">
-  <a href="index.php" class="w3-bar-item <?php if($page == 'index.php'){ echo ' active"';}?>">Domov</a>
-  <a href="download.php" class="w3-bar-item w3-hide-small <?php if($page == 'download.php'){ echo ' active"';}?>">Na Stiahnutie</a>
-  <a href="news.php" class="w3-bar-item w3-hide-small <?php if($page == 'news.php'){ echo ' active"';}?>">Novinky</a>
-  <a href="contact.php" class="w3-bar-item w3-hide-small <?php if($page == 'contact.php'){ echo ' active"';}?>">Kontakt</a>
-  <a href="#" class="w3-bar-item w3-hide-small w3-right">Prihlásenie</a>
-  <a href="javascript:void(0)" class="w3-bar-item w3-right w3-hide-large w3-hide-medium" onclick="myFunction()">&#9776;</a>
-</div> 
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-<div id="mobile" class="w3-bar-block w3-hide w3-hide-large w3-hide-medium navbar">
-  <a href="download.php" class="w3-bar-item">Na Stiahnutie</a>
-  <a href="news.php" class="w3-bar-item">Novinky</a>
-  <a href="contact.php" class="w3-bar-item">Kontakt</a>
-  <a href="#" class="w3-bar-item">Prihlásenie</a>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mt-2 mt-lg-0">
+      <li class="nav-item <?php if($page == 'index.php'){ echo ' active"';}?>">
+        <a href="index.php" class="nav-link">Domov</a>
+      </li>
+      <li class="nav-item <?php if($page == 'download.php'){ echo ' active"';}?>">
+        <a href="download.php" class="nav-link">Na Stiahnutie</a>
+      </li>
+      <li class="nav-item <?php if($page == 'news.php'){ echo ' active"';}?>">
+        <a href="news.php" class="nav-link">Novinky</a>
+      </li>
+      <li class="nav-item <?php if($page == 'contact.php'){ echo ' active"';}?>">
+        <a href="contact.php" class="nav-link">Kontakt</a>
+      </li>
+    </ul>
+    <button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#exampleModal">Prihlásenie</button>
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Prihlásenie</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
-
-<script>
-  function myFunction() {
-    var x = document.getElementById("mobile");
-    if (x.className.indexOf("w3-show") == -1) {
-      x.className += " w3-show";
-    } else { 
-      x.className = x.className.replace(" w3-show", "");
-    }
-  }
-    </script>

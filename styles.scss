@@ -1,15 +1,16 @@
-$mobile-size: 600px;
+$mobile-size: 575px;
 $color-primary: #71b5cc;
 $color-primary-active: #3f96b3;
 
 html { 
-  font-size: 10px; 
+  font-size: 62.5%;
 }
 
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-size: 1.6rem; 
 }
 
 footer {
@@ -27,14 +28,10 @@ h1 {
   }
 }
 
-.content {
-  padding: 0 2rem;
-}
-
 .navbar {
   background-color: $color-primary;
   @media only screen and (min-width: $mobile-size) {
-    padding: 0 2rem;
+    padding: 0.4rem 2rem;
   }
 
   a {
@@ -49,7 +46,20 @@ h1 {
       background-color: $color-primary-active;
     }
   }
+
+  .navbar-collapse {
+    justify-content: space-between;
+
+    .navbar-nav {
+      gap: 1rem;
+    }
+  }
 }
+
+.content {
+  padding: 2rem;
+}
+
 
 .footer {
   padding: 0 2rem;
@@ -71,6 +81,11 @@ h1 {
 .btn-primary {
   background-color: $color-primary;
   color: white;
+  border: none;
+
+  @media only screen and (max-width: $mobile-size) {
+    width: 100%;
+  }
   
   &:hover {
     background-color: $color-primary-active;
