@@ -17,7 +17,6 @@
       <br><br>
       Správcu dochádzky je možné stiahnuť len po zakúpení. V prípade, že máte záujem o kompletné riešenie, prosím, kontaktujte ma.
     </p>
-
   </div>
 
 	<footer>

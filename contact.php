@@ -12,8 +12,8 @@
   <div class="content">
     <h3>Tomáš Lokša</h3>
     <address>
-      <p><b>Tel:</b> <a href="mailto:tomas.loksa@outlook.com">tomas.loksa@outlook.com</a></p>
-      <p><b>Mail:</b> <a href="tel:+421950607760">0950 607 760</a></p>
+      <p><b>Mail:</b> <a href="mailto:tomas.loksa@outlook.com">tomas.loksa@outlook.com</a></p>
+      <p><b>Tel:</b> <a href="tel:+421950607760">0950 607 760</a></p>
       
       <p><b>Adresa:</b><br>
         Rudina 500, <br>
