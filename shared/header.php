@@ -1,94 +1,3 @@
-<?php
-// Include config file
-require "model/Db.php";
-require "model/User.php";
-require "model/UserStorage.php";
-
-$storage = new UserStorage();
-$users = $storage->getAll();
-$page = basename($_SERVER['PHP_SELF']);
- 
-// Check if the user is already logged in, if yes then redirect him to welcome page
-if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-    header("location: welcome.php");
-    exit;
-}
- 
-// Define variables and initialize with empty values
-$surname = $password = "";
-$surname_err = $password_err = $login_err = "";
- 
-// Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $pdo = DB::conn();
-    // Check if surname is empty
-    if(empty(trim($_POST["surname"]))){
-        $surname_err = "Please enter surname.";
-    } else{
-        $surname = trim($_POST["surname"]);
-    }
-    
-    // Check if password is empty
-    if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter your password.";
-    } else{
-        $password = trim($_POST["password"]);
-    }
-    
-    // Validate credentials
-    if(empty($surname_err) && empty($password_err)){
-        // Prepare a select statement
-        $sql = "SELECT id, surname, password FROM users WHERE surname = :surname";
-        
-        if($stmt = $pdo->prepare($sql)){
-            // Bind variables to the prepared statement as parameters
-            $stmt->bindParam(":surname", $param_surname, PDO::PARAM_STR);
-            
-            // Set parameters
-            $param_surname = trim($_POST["surname"]);
-            
-            // Attempt to execute the prepared statement
-            if($stmt->execute()){
-                // Check if surname exists, if yes then verify password
-                if($stmt->rowCount() == 1){
-                    if($row = $stmt->fetch()){
-                        $id = $row["id"];
-                        $surname = $row["surname"];
-                        $hashed_password = $row["password"];
-                        //if(password_verify($password, $hashed_password)){
-                          if($password == $hashed_password) {
-                            // Password is correct, so start a new session
-                            session_start();
-                            
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["surname"] = $surname;                            
-                            
-                            // Redirect user to welcome page
-                            header("location: welcome.php");
-                        } else{
-                            // Password is not valid, display a generic error message
-                            $login_err = "Invalid surname or password.";
-                        }
-                    }
-                } else{
-                    // surname doesn't exist, display a generic error message
-                    $login_err = "Invalid surname or password.";
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-
-            // Close statement
-            unset($stmt);
-        }
-    }
-    
-    // Close connection
-    unset($pdo);
-}
-?>
 <div class="title">
   <h1 class="heading">Dochádzkový systém</h1>
 </div>
@@ -117,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   </div>
 </nav>
 
-<!-- Modal -->
+<!-- Modal, ktory sa zatial nepouziva!!! -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
