@@ -39,17 +39,17 @@
             </ul>
             <?php if (\App\Auth::isLogged()) { ?>
                 <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li class="nav-item <?php if($page == 'input.php'){ echo ' active"';}?>">
-                        <a href="input.php" class="nav-link">Zadanie dochádzky</a>
-                    </li>
                     <li class="nav-item <?php if($page == 'table.php'){ echo ' active"';}?>">
-                        <a href="table.php" class="nav-link">Prehľad dochádzky</a>
+                        <a href="?c=portal&a=index" class="nav-link">Prehľad dochádzky</a>
+                    </li>
+                    <li class="nav-item <?php if($page == 'input.php'){ echo ' active"';}?>">
+                        <a href="?c=portal&a=input" class="nav-link">Zadanie dochádzky</a>
                     </li>
                     <li class="nav-item <?php if($page == 'manage.php'){ echo ' active"';}?>">
-                        <a href="manage.php" class="nav-link">Správa zamestnancov</a>
+                        <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
                     </li>
                     <li class="nav-item <?php if($page == 'settings.php'){ echo ' active"';}?>">
-                        <a href="settings.php" class="nav-link">Nastavenia</a>
+                        <a href="?c=portal&a=settings" class="nav-link">Nastavenia</a>
                     </li>
                     <li class="nav-item <?php if($page == 'contact.php'){ echo ' active"';}?>">
                         <a href="?c=auth&a=logout" class="nav-link">Odhlásenie</a>
