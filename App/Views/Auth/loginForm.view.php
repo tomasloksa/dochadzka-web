@@ -9,7 +9,7 @@
             <?php } ?>
             <form method="post" action="?c=auth&a=login">
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                    <label for="exampleFormControlInput1" class="form-label">Meno</label>
                     <input type="email" class="form-control" name="login" id="exampleFormControlInput1" required>
                 </div>
                 <div class="mb-3">

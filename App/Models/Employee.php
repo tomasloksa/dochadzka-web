@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+class Employee extends \App\Core\Model
+{
+    public function __construct(
+        public int $id = 0,
+        public int $companyId = 0,
+        public ?string $name = null,
+        public ?string $surname = null,
+        public ?string $mail = null
+    ) { }
+
+    static public function setDbColumns(): array
+    {
+        return ['id', 'companyId', 'name', 'surname', 'mail'];
+    }
+
+    static public function setTableName(): string
+    {
+        return "employee";
+    }
+}

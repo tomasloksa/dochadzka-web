@@ -6,11 +6,7 @@ use App\Auth;
 
 class AuthController extends AControllerRedirect
 {
-
-    public function index()
-    {
-        // TODO: Implement index() method.
-    }
+    public function index() { }
 
     public function loginForm()
     {
@@ -29,7 +25,7 @@ class AuthController extends AControllerRedirect
         $logged = Auth::login($login, $password);
 
         if ($logged) {
-            $this->redirect('home');
+            $this->redirect('portal', 'index');
         } else {
             $this->redirect('auth', 'loginForm', ['error' => 'Nesprávne meno alebo heslo!']);
         }

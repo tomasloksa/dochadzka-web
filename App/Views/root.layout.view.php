@@ -23,35 +23,35 @@
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mt-2 mt-lg-0">
-                <?php $page = basename($_SERVER['PHP_SELF']); ?>
-                <li class="nav-item <?php if($page == 'index.php'){ echo ' active"';}?>">
+                <?php $page = $_GET['a'] ?? ""; ?>
+                <li class="nav-item <?php if(empty($page)){ echo ' active"';}?>">
                     <a href="?c=home" class="nav-link">Domov</a>
                 </li>
-                <li class="nav-item <?php if($page == 'download.php'){ echo ' active"';}?>">
+                <li class="nav-item <?php if($page == 'download'){ echo ' active"';}?>">
                     <a href="?c=home&a=download" class="nav-link">Na Stiahnutie</a>
                 </li>
-                <li class="nav-item <?php if($page == 'news.php'){ echo ' active"';}?>">
+                <li class="nav-item <?php if($page == 'news'){ echo ' active"';}?>">
                     <a href="?c=home&a=news" class="nav-link">Novinky</a>
                 </li>
-                <li class="nav-item <?php if($page == 'contact.php'){ echo ' active"';}?>">
+                <li class="nav-item <?php if($page == 'contact'){ echo ' active"';}?>">
                     <a href="?c=home&a=contact" class="nav-link">Kontakt</a>
                 </li>
             </ul>
             <?php if (\App\Auth::isLogged()) { ?>
                 <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li class="nav-item <?php if($page == 'table.php'){ echo ' active"';}?>">
+                    <li class="nav-item <?php if($page == 'index'){ echo ' active"';}?>">
                         <a href="?c=portal&a=index" class="nav-link">Prehľad dochádzky</a>
                     </li>
-                    <li class="nav-item <?php if($page == 'input.php'){ echo ' active"';}?>">
+                    <li class="nav-item <?php if($page == 'input'){ echo ' active"';}?>">
                         <a href="?c=portal&a=input" class="nav-link">Zadanie dochádzky</a>
                     </li>
-                    <li class="nav-item <?php if($page == 'manage.php'){ echo ' active"';}?>">
+                    <li class="nav-item <?php if($page == 'manage'){ echo ' active"';}?>">
                         <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
                     </li>
-                    <li class="nav-item <?php if($page == 'settings.php'){ echo ' active"';}?>">
+                    <li class="nav-item <?php if($page == 'settings'){ echo ' active"';}?>">
                         <a href="?c=portal&a=settings" class="nav-link">Nastavenia</a>
                     </li>
-                    <li class="nav-item <?php if($page == 'contact.php'){ echo ' active"';}?>">
+                    <li class="nav-item <?php if($page == 'logout'){ echo ' active"';}?>">
                         <a href="?c=auth&a=logout" class="nav-link">Odhlásenie</a>
                     </li>
                 </ul>
