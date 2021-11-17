@@ -3,7 +3,7 @@ services:
   web:
     build: .
     volumes:
-      - ./:/var/www/html/
+      - ./../:/var/www/html/
     ports:
       - "80:80"
     stdin_open: true
@@ -14,7 +14,7 @@ services:
       - ./sql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: heslo
-      MYSQL_DATABASE: dbtable
+      MYSQL_DATABASE: databaza
       MYSQL_USER: db_user
       MYSQL_PASSWORD: db_user_pass
     ports:
