@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sk">
+<html lang="sk" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>Dochádzkový systém</title>
     <meta charset="utf-8">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="public/styles.css">
     <link rel="icon" href="public/img/clock.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="public/script.js"></script>
 </head>
 
 <body>

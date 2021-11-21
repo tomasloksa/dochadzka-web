@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Core\AControllerBase;
 use App\Core\Responses\Response;
 use App\Models\Employee;
+use App\Models\Actions;
 use App\Auth;
 
 class PortalController extends AControllerRedirect
@@ -14,7 +15,17 @@ class PortalController extends AControllerRedirect
         if (!Auth::isLogged()) {
             $this->redirect("home");
         }
-        return $this->html();
+
+        $actions = Actions::ACTIONS;
+        return $this->html([
+            'actions' => $actions
+        ]);
+    }
+
+    public function addAction()
+    {
+
+        $this->redirect('portal');
     }
 
     public function manage()
@@ -49,16 +60,31 @@ class PortalController extends AControllerRedirect
         if (!Auth::isLogged()) {
             $this->redirect("home");
         }
+
+        $id = $this->request()->getValue('id');
+
+        if ($id > 0) {
+            $employee = Employee::getOne($id);
+            return $this->html([
+                'employee' => $employee
+            ]);
+        }
+
         return $this->html();
     }
 
-    public function addEmployee()
+    public function saveEmployee()
     {
         if (!Auth::isLogged()) {
             $this->redirect("home");
         }
 
         $employee = new Employee;
+
+        $id = $this->request()->getValue('id');
+        if (isset($id)) {
+            $employee->id = $id;
+        }
         $employee->companyId = 2;
         $employee->name = $this->request()->getValue('name');
         $employee->surname = $this->request()->getValue('surname');

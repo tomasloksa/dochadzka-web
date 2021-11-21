@@ -31,8 +31,9 @@ INSERT INTO user VALUES (1, 'hamilton', 'test123'), (2, 'faith', 'abcdefg');
 
 CREATE TABLE `attendance` (
                            `id` mediumint(8) unsigned NOT NULL,
+                           `employeeId` mediumint(8) unisgned NOT NULL,
                            `time` datetime NOT NULL,
                            `action` varchar(10) NOT NULL,
                            PRIMARY KEY (`id`),
-                           FOREIGN KEY (`id`) REFERENCES employee(id)
-)
+                           FOREIGN KEY (`employeeId`) REFERENCES employee(id)
+) AUTO_INCREMENT=1;
