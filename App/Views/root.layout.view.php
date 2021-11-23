@@ -44,7 +44,7 @@
                         <a href="?c=portal&a=index" class="nav-link">Prehľad dochádzky</a>
                     </li>
                     <li class="nav-item <?php if($page == 'input'){ echo ' active"';}?>">
-                        <a href="?c=portal&a=input" class="nav-link">Zadanie dochádzky</a>
+                        <a href="?c=portal&a=input" class="nav-link">Vloženie dochádzky</a>
                     </li>
                     <li class="nav-item <?php if($page == 'manage'){ echo ' active"';}?>">
                         <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>

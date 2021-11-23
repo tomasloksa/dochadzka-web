@@ -9,12 +9,13 @@ class Employee extends \App\Core\Model
         public int $companyId = 0,
         public ?string $name = null,
         public ?string $surname = null,
-        public ?string $mail = null
+        public ?string $mail = null,
+        public ?string $password = null
     ) { }
 
     static public function setDbColumns(): array
     {
-        return ['id', 'companyId', 'name', 'surname', 'mail'];
+        return ['id', 'companyId', 'name', 'surname', 'mail', 'password'];
     }
 
     static public function setTableName(): string

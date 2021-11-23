@@ -6,10 +6,24 @@ use App\Core\AControllerBase;
 use App\Core\Responses\Response;
 use App\Models\Employee;
 use App\Models\Actions;
+use App\Models\AttendanceLog;
 use App\Auth;
 
 class PortalController extends AControllerRedirect
 {
+
+    public function index()
+    {
+        if (!Auth::isLogged()) {
+            $this->redirect("home");
+        }
+
+        $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ 1 ]);
+        return $this->html([
+            'logs' => $attendanceLogs
+        ]);
+    }
+
     public function input()
     {
         if (!Auth::isLogged()) {
@@ -24,8 +38,13 @@ class PortalController extends AControllerRedirect
 
     public function addAction()
     {
+        $action = new AttendanceLog;
+        $action->employeeId = 1;
+        $action->time = date("Y-m-d H:i:s");
+        $action->action = $this->request()->getValue('action');
+        $action->save();
 
-        $this->redirect('portal');
+        $this->redirect('portal', 'index');
     }
 
     public function manage()
@@ -34,8 +53,6 @@ class PortalController extends AControllerRedirect
             $this->redirect("home");
         }
 
-        error_reporting(-1);
-        ini_set('display_errors', 'On');
         $employees = Employee::getAll();
 
         return $this->html([
@@ -95,14 +112,6 @@ class PortalController extends AControllerRedirect
     }
 
     public function settings()
-    {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
-        return $this->html();
-    }
-
-    public function index()
     {
         if (!Auth::isLogged()) {
             $this->redirect("home");
