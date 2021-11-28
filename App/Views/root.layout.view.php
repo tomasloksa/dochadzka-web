@@ -15,6 +15,9 @@
 <header>
     <div class="title">
         <h1 class="heading">Dochádzkový systém</h1>
+        <div>
+            <p>Prihlásený: <?php echo $_SESSION['name']?></p>
+        </div>
     </div>
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light">

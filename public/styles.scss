@@ -18,10 +18,7 @@ footer {
 }
 
 h1 {
-  margin: 0;
-  padding: 1rem 3.3rem;
   color: #3f96b3;
-  background-color: #add8e6;
   @media only screen and (max-width: $mobile-size) {
     text-align: center;
     padding: 1rem 0;
@@ -98,4 +95,15 @@ h1 {
 
 .contact-form {
   padding-top: 1rem;
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  background-color: #add8e6;
+
+  &>* {
+    margin: 0;
+    padding: 1rem 3.3rem;
+  }
 }

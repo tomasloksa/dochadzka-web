@@ -2,19 +2,23 @@
 
 namespace App;
 
+use App\Models\Employee;
+
 class Auth
 {
-    const LOGIN = "a@a.sk";
-    const PASSWORD = "aaa";
-
     public static function login($login, $password)
     {
-        if ($login == self::LOGIN && $password == self::PASSWORD) {
-            $_SESSION['name'] = $login;
-            return true;
-        } else {
-            return false;
+        $users = Employee::getAll();
+
+        foreach ($users as $user) {
+            if ($login == $user->mail && $password == $user->password) {
+                $_SESSION['name'] = $user->name . " " . $user->surname;
+                $_SESSION['id'] = $user->id;
+                return true;
+            }
         }
+
+        return false;
     }
 
     public static function isLogged()
@@ -22,14 +26,10 @@ class Auth
         return isset($_SESSION['name']);
     }
 
-    public static function getName()
-    {
-        return (Auth::isLogged() ? $_SESSION['name'] : "");
-    }
-
     public static function logout()
     {
         unset($_SESSION['name']);
+        unset($_SESSION['id']);
         session_destroy();
     }
 }

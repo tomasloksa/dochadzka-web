@@ -24,7 +24,7 @@
                             <td><?= $employee->surname ?></td>
                             <td><?= $employee->mail ?></td>
                             <td>
-                                <a href="?c=portal&a=removeEmployee&id=<?= $employee->id ?>" class="btn btn-info">
+                                <a href="?c=portal&a=index&id=<?= $employee->id ?>" class="btn btn-info">
                                     Prehľad dochádzky
                                 </a>
                                 <a href="?c=portal&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning">

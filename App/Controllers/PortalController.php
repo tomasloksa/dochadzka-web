@@ -18,9 +18,19 @@ class PortalController extends AControllerRedirect
             $this->redirect("home");
         }
 
-        $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ 1 ]);
+        if ($this->request()->getValue('id')) {
+            $id = $this->request()->getValue('id');
+            $name = Employee::getOne($id);
+        } else {
+            $id = $_SESSION['id'];
+            $name = $_SESSION['name'];
+        }
+            
+        $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ $id ]);
+        
         return $this->html([
-            'logs' => $attendanceLogs
+            'logs' => $attendanceLogs,
+            'name' => $name
         ]);
     }
 
@@ -39,7 +49,7 @@ class PortalController extends AControllerRedirect
     public function addAction()
     {
         $action = new AttendanceLog;
-        $action->employeeId = 1;
+        $action->employeeId = $_SESSION['id'];
         $action->time = date("Y-m-d H:i:s");
         $action->action = $this->request()->getValue('action');
         $action->save();
