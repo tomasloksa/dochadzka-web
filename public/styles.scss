@@ -102,8 +102,30 @@ h1 {
   justify-content: space-between;
   background-color: #add8e6;
 
-  &>* {
+  & > * {
     margin: 0;
     padding: 1rem 3.3rem;
   }
 }
+
+.center-clock {
+  padding: 10rem 25%;
+
+  #current-time {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  
+    .btn {
+      width: 20%;
+      height: 7.5rem;
+    }
+  }
+}
+

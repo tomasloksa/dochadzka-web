@@ -10,7 +10,8 @@ class Actions
         2 => 'Odchod',
         3 => 'Služobná cesta',
         4 => 'Súkromne',
-        5 => 'Lekár',
-        6 => 'Home office'
+        5 => 'Lekár zamestnanec',
+        6 => 'Lekár sprievod',
+        7 => 'Home office'
     );
 }

@@ -1,6 +1,6 @@
 <?php /** @var Array $data */ ?>
 
-<h3>Dochádzka používateľa: <?= $_SESSION['name'] ?></h3>
+<h3>Dochádzka používateľa: <?= $data['name'] ?></h3>
 <table class="table">
     <thead>
     <tr>

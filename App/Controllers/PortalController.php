@@ -20,7 +20,8 @@ class PortalController extends AControllerRedirect
 
         if ($this->request()->getValue('id')) {
             $id = $this->request()->getValue('id');
-            $name = Employee::getOne($id);
+            $emp = Employee::getOne($id);
+            $name = $emp->name." ".$emp->surname;
         } else {
             $id = $_SESSION['id'];
             $name = $_SESSION['name'];
