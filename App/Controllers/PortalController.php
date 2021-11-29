@@ -11,12 +11,15 @@ use App\Auth;
 
 class PortalController extends AControllerRedirect
 {
-
-    public function index()
-    {
+    private function redirectHomeIfNotLogged() {
         if (!Auth::isLogged()) {
             $this->redirect("home");
         }
+    }
+
+    public function index()
+    {
+        $this->redirectHomeIfNotLogged();
 
         if ($this->request()->getValue('id')) {
             $id = $this->request()->getValue('id');
@@ -37,9 +40,7 @@ class PortalController extends AControllerRedirect
 
     public function input()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
 
         $actions = Actions::ACTIONS;
         return $this->html([
@@ -49,6 +50,8 @@ class PortalController extends AControllerRedirect
 
     public function addAction()
     {
+        $this->redirectHomeIfNotLogged();
+
         $action = new AttendanceLog;
         $action->employeeId = $_SESSION['id'];
         $action->time = date("Y-m-d H:i:s");
@@ -60,9 +63,7 @@ class PortalController extends AControllerRedirect
 
     public function manage()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
 
         $employees = Employee::getAll();
 
@@ -73,9 +74,7 @@ class PortalController extends AControllerRedirect
 
     public function removeEmployee()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
 
         $employeeId = $this->request()->getValue('id');
         $employee = Employee::getOne($employeeId);
@@ -85,9 +84,7 @@ class PortalController extends AControllerRedirect
 
     public function employeeEdit()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
 
         $id = $this->request()->getValue('id');
 
@@ -103,9 +100,7 @@ class PortalController extends AControllerRedirect
 
     public function saveEmployee()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
 
         $employee = new Employee;
 
@@ -124,9 +119,22 @@ class PortalController extends AControllerRedirect
 
     public function settings()
     {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
+        $this->redirectHomeIfNotLogged();
         return $this->html();
+    }
+
+    public function changePassword() {
+        $this->redirectHomeIfNotLogged();
+
+        $user = Employee::getOne($_SESSION['id']);
+        if ($user->password == $this->request()->getValue('oldPassword')) {
+            if ($this->request()->getValue('newPassword') == $this->request()->getValue('newPasswordRepeat')) {
+                $user->password = $this->request()->getValue('newPassword');
+            }
+        }
+
+        $user->save();
+
+        $this->redirect('portal');
     }
 }
