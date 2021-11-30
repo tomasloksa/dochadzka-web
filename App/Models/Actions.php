@@ -5,13 +5,13 @@ namespace App\Models;
 class Actions
 {
     const ACTIONS = array(
-        0 => 'Príchod',
-        1 => 'Obed',
-        2 => 'Odchod',
-        3 => 'Služobná cesta',
-        4 => 'Súkromne',
-        5 => 'Lekár zamestnanec',
-        6 => 'Lekár sprievod',
-        7 => 'Home office'
+        1 => 'Príchod',
+        2 => 'Obed',
+        3 => 'Odchod',
+        4 => 'Služobná cesta',
+        5 => 'Súkromne',
+        6 => 'Lekár zamestnanec',
+        7 => 'Lekár sprievod',
+        8 => 'Home office'
     );
 }

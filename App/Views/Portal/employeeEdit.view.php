@@ -10,7 +10,7 @@
     <input type="hidden" name="id" value="<?= $data['employee']->id ?? 0 ?>">
     <div class="form-group">
         <label>Meno</label>
-        <input type="text" class="form-control" name="name" value="<?= $data['employee']->name ?? "" ?>" required>
+        <input type="text" class="form-control" name="name" placeholder="Meno" value="<?= $data['employee']->name ?? "" ?>" required>
     </div>
     <div class="form-group">
         <label>Priezvisko</label>
