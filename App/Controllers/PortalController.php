@@ -120,7 +120,10 @@ class PortalController extends AControllerRedirect
     public function settings()
     {
         $this->redirectHomeIfNotLogged();
-        return $this->html();
+        return $this->html([
+            'error' => $this->request()->getValue('error'),
+            'success' => $this->request()->getValue('success')
+        ]);
     }
 
     public function changePassword() {
@@ -130,11 +133,16 @@ class PortalController extends AControllerRedirect
         if ($user->password == $this->request()->getValue('oldPassword')) {
             if ($this->request()->getValue('newPassword') == $this->request()->getValue('newPasswordRepeat')) {
                 $user->password = $this->request()->getValue('newPassword');
+            } 
+            else {
+                $this->redirect('portal', 'settings', ['error' => 'Heslá sa nezhodujú!']);
             }
+        } 
+        else {
+            $this->redirect('portal', 'settings', ['error' => 'Nesprávne zadané pôvodné heslo!']);
         }
 
         $user->save();
-
-        $this->redirect('portal');
+        $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
     }
 }

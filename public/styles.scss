@@ -91,6 +91,10 @@ h1 {
   &:hover {
     background-color: $color-primary-active;
   }
+
+  &:disabled {
+    background-color: gray;
+  }
 }
 
 .contact-form {
@@ -129,6 +133,6 @@ h1 {
   }
 }
 
-#password-form {
+#passwordForm {
   max-width: 25rem;
 }

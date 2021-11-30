@@ -14,12 +14,19 @@ function updateClock(element) {
 }
 
 function validatePasswordMatch() {
-    var pass1 = document.getElementById("newPasword").value;
-    var pass2 = document.getElementById("newPaswordRepeat").value;
+    var pass1 = document.getElementById('newPassword').value;
+    var pass2 = document.getElementById('newPasswordRepeat').value;
 
-    if (password != confirmPassword) {
-        alert("Heslá sa nezhodujú!");
-        return false;
+    var errorDiv = document.getElementById('passwordMatchError');
+    var button = document.getElementById('submitButton');
+    
+    if (pass1 != pass2 && pass2 != "") {
+        errorDiv.innerText = "Heslá sa nezhodujú!";
+        errorDiv.classList.add('text-danger');
+        button.disabled = true;
     }
-    return true;
+    else {
+        errorDiv.innerText = "";
+        button.disabled = false;
+    }
 }
