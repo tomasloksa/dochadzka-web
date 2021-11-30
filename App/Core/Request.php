@@ -83,11 +83,20 @@ class Request
     public function getValue($key)
     {
         if (isset($_POST[$key])) {
-            return $_POST[$key];
+            return $this->validate_data($_POST[$key]);
         } else if (isset($_GET[$key])){
-            return $_GET[$key];
+            return $this->validate_data($_GET[$key]);
         } else {
             return null;
         }
+    }
+
+    private function validate_data($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = strip_tags($data);
+        $data = htmlspecialchars($data);
+        return $data;    
     }
 }

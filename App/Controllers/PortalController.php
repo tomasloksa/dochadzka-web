@@ -11,18 +11,12 @@ use App\Auth;
 
 class PortalController extends AControllerRedirect
 {
-    private function redirectHomeIfNotLogged() {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
-    }
-
     public function index()
     {
         $this->redirectHomeIfNotLogged();
 
-        if ($this->request()->getValue('id')) {
-            $id = $this->request()->getValue('id');
+        $id = $this->request()->getValue('id');
+        if ($id) { // and user is an administrator
             $emp = Employee::getOne($id);
             $name = $emp->name." ".$emp->surname;
         } else {
@@ -75,6 +69,8 @@ class PortalController extends AControllerRedirect
     public function removeEmployee()
     {
         $this->redirectHomeIfNotLogged();
+
+        //TODO only if is administrator of user's company
 
         $employeeId = $this->request()->getValue('id');
         $employee = Employee::getOne($employeeId);
@@ -144,5 +140,11 @@ class PortalController extends AControllerRedirect
 
         $user->save();
         $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
+    }
+
+    private function redirectHomeIfNotLogged() {
+        if (!Auth::isLogged()) {
+            $this->redirect("home");
+        }
     }
 }
