@@ -6,7 +6,7 @@
     <tr>
         <th scope="col">Id Akcie</th>
         <th scope="col">Id Zamestnanca</th>
-        <th scope="col">Cas</th>
+        <th scope="col">Čas</th>
         <th scope="col">Akcia</th>
     </tr>
     </thead>
