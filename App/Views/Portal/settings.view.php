@@ -5,11 +5,13 @@
         <?= $data['error'] ?>
     </div>
 <?php } ?>
-<?php if ($data['success'] != "") { ?>
+
+<?php if (isset($data['success'])) { ?>
     <div class="alert alert-success" role="alert">
         <?= $data['success'] ?>
     </div>
 <?php } ?>
+
 <h2>Zmena hesla</h2>
 <form method="post" id="passwordForm" action="?c=portal&a=changePassword">
     <div class="form-group">

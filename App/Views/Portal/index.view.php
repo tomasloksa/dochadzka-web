@@ -16,7 +16,7 @@
                 <th scope="row"><?= $log->id ?></th>
                 <td><?= $log->employeeId ?></td>
                 <td><?= $log->time ?></td>
-                <td><?= $log->action ?></td>
+                <td><?= App\Models\Actions::ACTIONS[$log->action] ?></td>
             </tr>
     <?php } ?>
     </tbody>

@@ -30,3 +30,9 @@ function validatePasswordMatch() {
         button.disabled = false;
     }
 }
+
+function deleteModal(employeeName) {
+    new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    let name = document.getElementById('employeeName');
+    name.innerText = employeeName;
+}

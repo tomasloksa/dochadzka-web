@@ -9,7 +9,7 @@ INSERT INTO company (`name`) VALUES ('testovacia firma'), ('druha firma');
 CREATE TABLE employee (
                          `id` mediumint(8) unsigned NOT NULL auto_increment,
                          `companyId` mediumint(8) unsigned NOT NULL,
-                         `name` varchar(255) default NULL,
+                         `name` varchar(255) NOT NULL,
                          `surname` varchar(255) NOT NULL,
                          `mail` varchar(255) default NULL,
                          `password` varchar(255) default NULL,

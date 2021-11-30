@@ -1,4 +1,17 @@
 <?php /** @var Array $data */ ?>
+
+<?php if ($data['error'] != "") { ?>
+    <div class="alert alert-danger" role="alert">
+        <?= $data['error'] ?>
+    </div>
+<?php } ?>
+
+<?php if (isset($data['success'])) { ?>
+    <div class="alert alert-success" role="alert">
+        <?= $data['success'] ?>
+    </div>
+<?php } ?>
+
 <div class="container">
     <div class="row">
         <div class="d-flex justify-content-start flex-wrap">
@@ -43,14 +56,14 @@
     </div>
 </div>
 
-<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <h3>Naozaj si prajete ostrániť zamestnanca <i id="employee-name"></i> z dochádzky?</h3>
+                <h3>Naozaj si prajete ostrániť zamestnanca <i id="employeeName"></i> z dochádzky?</h3>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Návrat</button>

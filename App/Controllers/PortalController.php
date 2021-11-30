@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\AControllerBase;
-use App\Core\Responses\Response;
 use App\Models\Employee;
 use App\Models\Actions;
 use App\Models\AttendanceLog;
@@ -16,7 +14,7 @@ class PortalController extends AControllerRedirect
         $this->redirectHomeIfNotLogged();
 
         $id = $this->request()->getValue('id');
-        if ($id) { // and user is an administrator
+        if ($id) { //TODO and user is an administrator
             $emp = Employee::getOne($id);
             $name = $emp->name." ".$emp->surname;
         } else {
@@ -49,8 +47,12 @@ class PortalController extends AControllerRedirect
         $action = new AttendanceLog;
         $action->employeeId = $_SESSION['id'];
         $action->time = date("Y-m-d H:i:s");
-        $action->action = $this->request()->getValue('action');
-        $action->save();
+        $inputAction = array_search($this->request()->getValue('action'), Actions::ACTIONS);
+
+        if ($inputAction != false) {
+            $action->action = $inputAction;
+            $action->save();
+        }
 
         $this->redirect('portal', 'index');
     }
@@ -62,6 +64,7 @@ class PortalController extends AControllerRedirect
         $employees = Employee::getAll();
 
         return $this->html([
+            'error' => $this->request()->getValue('error'),
             'employees' => $employees
         ]);
     }
@@ -73,20 +76,27 @@ class PortalController extends AControllerRedirect
         //TODO only if is administrator of user's company
 
         $employeeId = $this->request()->getValue('id');
-        $employee = Employee::getOne($employeeId);
-        $employee->delete();
-        $this->redirect('portal', 'manage');
+        if ($employeeId != $_SESSION['id']) {
+            $employee = Employee::getOne($employeeId);
+            $employee->delete();
+            $this->redirect('portal', 'manage');
+        } else {
+            $this->redirect('portal', 'manage', ['error' => 'Nie je možné vymazať vedúceho zamestnanca!']);
+        }
     }
 
     public function employeeEdit()
     {
         $this->redirectHomeIfNotLogged();
 
+        //TODO only if is administrator of user's company
+
         $id = $this->request()->getValue('id');
 
         if ($id > 0) {
             $employee = Employee::getOne($id);
             return $this->html([
+                'error' => $this->request()->getValue('error'),
                 'employee' => $employee
             ]);
         }
@@ -98,17 +108,24 @@ class PortalController extends AControllerRedirect
     {
         $this->redirectHomeIfNotLogged();
 
-        $employee = new Employee;
+        //TODO only if is administrator
 
         $id = $this->request()->getValue('id');
-        if (isset($id)) {
-            $employee->id = $id;
+        if ($id > 0) {
+            $employee = Employee::getOne($id);
+        } else {
+            $employee = new Employee;
+            $employee->companyId = 2;
         }
-        $employee->companyId = 2;
+
         $employee->name = $this->request()->getValue('name');
         $employee->surname = $this->request()->getValue('surname');
         $employee->mail = $this->request()->getValue('mail');
         $employee->save();
+
+        if ($employee->id == $_SESSION['id']) {
+            Auth::setName($employee);
+        }
 
         $this->redirect('portal', 'manage');
     }
@@ -129,6 +146,8 @@ class PortalController extends AControllerRedirect
         if ($user->password == $this->request()->getValue('oldPassword')) {
             if ($this->request()->getValue('newPassword') == $this->request()->getValue('newPasswordRepeat')) {
                 $user->password = $this->request()->getValue('newPassword');
+                $user->save();
+                $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
             } 
             else {
                 $this->redirect('portal', 'settings', ['error' => 'Heslá sa nezhodujú!']);
@@ -137,9 +156,6 @@ class PortalController extends AControllerRedirect
         else {
             $this->redirect('portal', 'settings', ['error' => 'Nesprávne zadané pôvodné heslo!']);
         }
-
-        $user->save();
-        $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
     }
 
     private function redirectHomeIfNotLogged() {

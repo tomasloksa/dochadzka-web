@@ -25,6 +25,10 @@ h1 {
   }
 }
 
+form {
+  max-width: 25rem;
+}
+
 .navbar {
   background-color: $color-primary;
   @media only screen and (min-width: $mobile-size) {
@@ -101,6 +105,14 @@ h1 {
   padding-top: 1rem;
 }
 
+.login-form {
+  max-width: 100%;
+}
+
+.form-control, .btn {
+  font-size: 1.2rem;
+}
+
 .title {
   display: flex;
   justify-content: space-between;
@@ -125,14 +137,11 @@ h1 {
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    max-width: 100%;
   
     .btn {
       width: 20%;
       height: 7.5rem;
     }
   }
-}
-
-#passwordForm {
-  max-width: 25rem;
 }
