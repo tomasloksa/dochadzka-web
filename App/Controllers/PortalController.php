@@ -111,15 +111,17 @@ class PortalController extends AControllerRedirect
         //TODO only if is administrator
 
         $id = $this->request()->getValue('id');
+        $surname = $this->request()->getValue('surname');
         if ($id > 0) {
             $employee = Employee::getOne($id);
         } else {
             $employee = new Employee;
             $employee->companyId = 2;
+            $employee->password = "heslo"; //TODO Tu by asi bolo fajn nastavit lowercase priezvisko bez diakritiky, alebo uplne zmenit registraciu
         }
 
         $employee->name = $this->request()->getValue('name');
-        $employee->surname = $this->request()->getValue('surname');
+        $employee->surname = $surname;
         $employee->mail = $this->request()->getValue('mail');
         $employee->save();
 
