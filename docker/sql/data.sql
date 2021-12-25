@@ -30,3 +30,13 @@ CREATE TABLE `attendance` (
                            PRIMARY KEY (`id`),
                            FOREIGN KEY (`employeeId`) REFERENCES employee(id)
 ) AUTO_INCREMENT=1;
+
+CREATE TABLE `attendanceDay` (
+                           `day` tinyint NOT NULL check (`day` between 1 and 31),
+                           `month` tinyint NOT NULL check (`month` between 1 and 12),
+                           `year` smallint NOT NULL, 
+                           `employeeId` mediumint(8) unsigned NULL,
+                           `dayType` tinyint NOT NULL,
+                           PRIMARY KEY (`day`, `month`, `year`),
+                           FOREIGN KEY (`employeeId`) REFERENCES employee(id)
+);
