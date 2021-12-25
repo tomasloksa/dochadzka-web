@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Models\Employee;
 use App\Models\Actions;
+use App\Models\DayType;
 use App\Models\AttendanceLog;
+use App\Models\AttendanceDay;
 use App\Auth;
 
 class PortalController extends AControllerRedirect
@@ -23,21 +25,24 @@ class PortalController extends AControllerRedirect
         }
             
         $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ $id ]);
+        $attendanceDays = AttendanceDay::getAll();
 
-        $attendanceByDay = new \SplFixedArray(31);
+        $actionsByDay = new \SplFixedArray(31);
         foreach ($attendanceLogs as &$log) {
             $day = date("d", strtotime($log->time));
-            $array = $attendanceByDay[$day];
+            $array = $actionsByDay[$day];
             if (is_null($array)) {
                 $array = [];
             }
             array_push($array, $log);
-            $attendanceByDay[$day] = $array;
+            $actionsByDay[$day] = $array;
         }
         
         return $this->html([
-            'logs' => $attendanceByDay,
-            'name' => $name
+            'logs' => $actionsByDay,
+            'name' => $name,
+            'days' => $attendanceDays,
+            'dayTypes' => DayType::DAYTYPE
         ]);
     }
 

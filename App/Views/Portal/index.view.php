@@ -6,6 +6,7 @@
     <thead>
     <tr>
         <th scope="col">Deň</th>
+        <th scope="col">Typ</th>
         <?php for ($i = 0; $i < 5; $i++) { ?>
             <th scope="col"></th>
         <?php } ?>
@@ -13,9 +14,10 @@
     </tr>
     </thead>
     <tbody>
-    <?php for ($day = 1; $day < 31; $day++) { ?>
+    <?php for ($day = 0; $day < 31; $day++) { ?>
             <tr>
-                <th class="day-header" scope="row"><?= $day ?></th>
+                <th class="day-header" scope="row"><?= $day + 1 ?></th>
+                <td class="action"><?= $data['days'][$day]->dayType ?? "Pracovný deň" ?></td>
                 <?php foreach ((array)$data['logs'][$day] as $action) { ?>
                     <td class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
                 <?php } ?>

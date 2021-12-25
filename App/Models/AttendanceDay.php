@@ -2,14 +2,14 @@
 
 namespace App\Models;
 
-class Employee extends \App\Core\Model
+class AttendanceDay extends \App\Core\Model
 {
     public function __construct(
+        public DayType $dayType,
         public int $day = 0,
         public int $month = 0,
         public int $year = 0,
-        public int $userId = 0,
-        public DayType $dayType
+        public int $userId = 0
     ) { }
 
     static public function setDbColumns(): array
