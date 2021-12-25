@@ -12,8 +12,7 @@ class Auth
 
         foreach ($users as $user) {
             if ($login == $user->mail && $password == $user->password) {
-                Auth::setName($user);
-                $_SESSION['id'] = $user->id;
+                Auth::setSessionData($user);
                 return true;
             }
         }
@@ -21,8 +20,11 @@ class Auth
         return false;
     }
 
-    public static function setName($user) {
+    public static function setSessionData($user) {
         $_SESSION['name'] = $user->name . " " . $user->surname;
+        $_SESSION['id'] = $user->id;
+        $_SESSION['role'] = $user->role;
+        $_SESSION['companyId'] = $user->companyId;
     }
 
     public static function isLogged()

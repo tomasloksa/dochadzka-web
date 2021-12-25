@@ -14,7 +14,7 @@ class PortalController extends AControllerRedirect
         $this->redirectHomeIfNotLogged();
 
         $id = $this->request()->getValue('id');
-        if ($id) { //TODO and user is an administrator
+        if ($id && $_SESSION['role'] == 1 && $_SESSION['companyId'] == $employee->companyId) {
             $emp = Employee::getOne($id);
             $name = $emp->name." ".$emp->surname;
         } else {
@@ -23,9 +23,20 @@ class PortalController extends AControllerRedirect
         }
             
         $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ $id ]);
+
+        $attendanceByDay = new \SplFixedArray(31);
+        foreach ($attendanceLogs as &$log) {
+            $day = date("d", strtotime($log->time));
+            $array = $attendanceByDay[$day];
+            if (is_null($array)) {
+                $array = [];
+            }
+            array_push($array, $log);
+            $attendanceByDay[$day] = $array;
+        }
         
         return $this->html([
-            'logs' => $attendanceLogs,
+            'logs' => $attendanceByDay,
             'name' => $name
         ]);
     }
@@ -60,6 +71,7 @@ class PortalController extends AControllerRedirect
     public function manage()
     {
         $this->redirectHomeIfNotLogged();
+        $this->redirectHomeIfNotAdmin();
 
         $employees = Employee::getAll();
 
@@ -72,12 +84,11 @@ class PortalController extends AControllerRedirect
     public function removeEmployee()
     {
         $this->redirectHomeIfNotLogged();
-
-        //TODO only if is administrator of user's company
+        $this->redirectHomeIfNotAdmin();
 
         $employeeId = $this->request()->getValue('id');
-        if ($employeeId != $_SESSION['id']) {
-            $employee = Employee::getOne($employeeId);
+        $employee = Employee::getOne($employeeId);
+        if ($_SESSION['companyId'] == $employee->companyId) {
             $employee->delete();
             $this->redirect('portal', 'manage');
         } else {
@@ -88,17 +99,18 @@ class PortalController extends AControllerRedirect
     public function employeeEdit()
     {
         $this->redirectHomeIfNotLogged();
-
-        //TODO only if is administrator of user's company
+        $this->redirectHomeIfNotAdmin();
 
         $id = $this->request()->getValue('id');
-
-        if ($id > 0) {
+        if (isset($id)) {
             $employee = Employee::getOne($id);
-            return $this->html([
-                'error' => $this->request()->getValue('error'),
-                'employee' => $employee
-            ]);
+
+            if ($_SESSION['companyId'] == $employee->companyId) {
+                return $this->html([
+                    'error' => $this->request()->getValue('error'),
+                    'employee' => $employee
+                ]);
+            }
         }
 
         return $this->html();
@@ -107,8 +119,7 @@ class PortalController extends AControllerRedirect
     public function saveEmployee()
     {
         $this->redirectHomeIfNotLogged();
-
-        //TODO only if is administrator
+        $this->redirectHomeIfNotAdmin();
 
         $id = $this->request()->getValue('id');
         $surname = $this->request()->getValue('surname');
@@ -135,6 +146,7 @@ class PortalController extends AControllerRedirect
     public function settings()
     {
         $this->redirectHomeIfNotLogged();
+
         return $this->html([
             'error' => $this->request()->getValue('error'),
             'success' => $this->request()->getValue('success')
@@ -162,6 +174,12 @@ class PortalController extends AControllerRedirect
 
     private function redirectHomeIfNotLogged() {
         if (!Auth::isLogged()) {
+            $this->redirect("home");
+        }
+    }
+
+    private function redirectHomeIfNotAdmin() {
+        if ($_SESSION['role'] < 1) {
             $this->redirect("home");
         }
     }

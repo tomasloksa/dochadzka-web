@@ -53,9 +53,11 @@
                     <li class="nav-item <?php if($page == 'input'){ echo 'active';}?>">
                         <a href="?c=portal&a=input" class="nav-link">Vloženie dochádzky</a>
                     </li>
-                    <li class="nav-item <?php if($page == 'manage'){ echo 'active';}?>">
-                        <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
-                    </li>
+                    <?php if ($_SESSION['role'] == 1) { ?>
+                        <li class="nav-item <?php if($page == 'manage'){ echo 'active';}?>">
+                            <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
+                        </li>
+                    <?php } ?>
                     <li class="nav-item <?php if($page == 'settings'){ echo 'active';}?>">
                         <a href="?c=portal&a=settings" class="nav-link">Nastavenia</a>
                     </li>
