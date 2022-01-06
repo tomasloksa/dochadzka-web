@@ -41,20 +41,19 @@ function changeDayType(day) {
     new bootstrap.Modal(document.getElementById('changeDayModal')).show();
 }
 
-$(function() {
-    $('#day-type-button').on('click', function(e) {
-        e.preventDefault();
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: $('form.tagForm').serialize(),
-            success: function(response) {
-                alert(response['response']);
-            },
-            error: function() {
-                alert('Error');
-            }
-        });
-        return false;
-    });
-    });
+$(document).ready(function(e) {   
+  $('.day-type').click(function(e) {
+      e.preventDefault();
+      $.ajax({
+          type: "POST",
+          url: "?c=portal&a=setDayType",
+          success: function(response) {
+              alert(response['response']);
+          },
+          error: function() {
+              alert('Error');
+          }
+      });
+      return false;
+  });
+});

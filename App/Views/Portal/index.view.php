@@ -35,9 +35,9 @@
                 <input type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <form class="buttons" action="?c=portal&a=addAction" method="get">
-                    <?php foreach (App\Models\Actions::ACTIONS as $action) { ?>
-                        <input class="btn btn-lg btn-primary" id="day-type-button" type="submit" name="action" value="<?= $action ?>">
+                <form class="buttons" method="post">
+                    <?php foreach (App\Models\DayType::DAYTYPE as $dayType) { ?>
+                        <input class="btn btn-lg btn-primary day-type" name="action" value="<?= $dayType ?>">
                     <?php } ?>
                 </form>
             </div>

@@ -16,8 +16,8 @@ class PortalController extends AControllerRedirect
         $this->redirectHomeIfNotLogged();
 
         $id = $this->request()->getValue('id');
-        if ($id && $_SESSION['role'] == 1 && $_SESSION['companyId'] == $employee->companyId) {
-            $emp = Employee::getOne($id);
+        $emp = Employee::getOne($id);
+        if ($id && $_SESSION['role'] == 1 && $_SESSION['companyId'] == $emp->companyId) {
             $name = $emp->name." ".$emp->surname;
         } else {
             $id = $_SESSION['id'];
@@ -49,8 +49,28 @@ class PortalController extends AControllerRedirect
     public function setDayType() {
         $this->redirectHomeIfNotAdmin();
 
-        $attendanceDay = new AttendaceDay;
-        $attendanceDay->dayType = $this->request()->getValue('type');
+        $search = \App\Models\AttendanceDay::getAll(
+          "day = ? AND month = ? AND year = ?", 
+          /*[ 
+            $this->request()->getValue('day'),
+            $this->request()->getValue('month'),
+            $this->request()->getValue('year'),
+          ]*/
+          [ 
+            5,1,2022
+          ]
+        );
+        if (empty($search)) {
+          $attendanceDay = new \App\Models\AttendanceDay(1);
+          $attendanceDay->day = 5;
+          $attendanceDay->month = 1;
+          $attendanceDay->year = 2022;
+          $attendanceDay->employeeId = 2;
+        } else {
+          $attendanceDay = $search[0];
+        }
+
+        $attendanceDay->save();
     }
 
     public function input()
@@ -128,7 +148,7 @@ class PortalController extends AControllerRedirect
         return $this->html();
     }
 
-    public function saveEmployee()
+    public function saveEmployee() 
     {
         $this->redirectHomeIfNotLogged();
         $this->redirectHomeIfNotAdmin();
@@ -149,7 +169,7 @@ class PortalController extends AControllerRedirect
         $employee->save();
 
         if ($employee->id == $_SESSION['id']) {
-            Auth::setName($employee);
+            Auth::setSessionData($employee);
         }
 
         $this->redirect('portal', 'manage');
@@ -165,7 +185,8 @@ class PortalController extends AControllerRedirect
         ]);
     }
 
-    public function changePassword() {
+    public function changePassword() 
+    {
         $this->redirectHomeIfNotLogged();
 
         $user = Employee::getOne($_SESSION['id']);
@@ -184,13 +205,15 @@ class PortalController extends AControllerRedirect
         }
     }
 
-    private function redirectHomeIfNotLogged() {
+    private function redirectHomeIfNotLogged() 
+    {
         if (!Auth::isLogged()) {
             $this->redirect("home");
         }
     }
 
-    private function redirectHomeIfNotAdmin() {
+    private function redirectHomeIfNotAdmin()
+    {
         if ($_SESSION['role'] < 1) {
             $this->redirect("home");
         }
