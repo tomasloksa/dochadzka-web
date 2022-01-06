@@ -36,6 +36,8 @@ class Auth
     {
         unset($_SESSION['name']);
         unset($_SESSION['id']);
+        unset($_SESSION['role']);
+        unset($_SESSION['companyId']);
         session_destroy();
     }
 }

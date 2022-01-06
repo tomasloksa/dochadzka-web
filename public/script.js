@@ -36,3 +36,25 @@ function deleteModal(employeeName) {
     let name = document.getElementById('employeeName');
     name.innerText = employeeName;
 }
+
+function changeDayType(day) {
+    new bootstrap.Modal(document.getElementById('changeDayModal')).show();
+}
+
+$(function() {
+    $('#day-type-button').on('click', function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: $('form.tagForm').serialize(),
+            success: function(response) {
+                alert(response['response']);
+            },
+            error: function() {
+                alert('Error');
+            }
+        });
+        return false;
+    });
+    });

@@ -46,6 +46,13 @@ class PortalController extends AControllerRedirect
         ]);
     }
 
+    public function setDayType() {
+        $this->redirectHomeIfNotAdmin();
+
+        $attendanceDay = new AttendaceDay;
+        $attendanceDay->dayType = $this->request()->getValue('type');
+    }
+
     public function input()
     {
         $this->redirectHomeIfNotLogged();
