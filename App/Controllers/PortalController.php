@@ -37,11 +37,16 @@ class PortalController extends AControllerRedirect
             array_push($array, $log);
             $actionsByDay[$day] = $array;
         }
+
+        $dayTypes = new \SplFixedArray(31);
+        foreach ($attendanceDays as &$day) {
+            $dayTypes[$day->day] = $day;
+        }
         
         return $this->html([
             'logs' => $actionsByDay,
             'name' => $name,
-            'days' => $attendanceDays,
+            'days' => $dayTypes,
             'dayTypes' => DayType::DAYTYPE
         ]);
     }
@@ -61,16 +66,19 @@ class PortalController extends AControllerRedirect
           ]
         );
         if (empty($search)) {
-          $attendanceDay = new \App\Models\AttendanceDay(1);
-          $attendanceDay->day = 5;
+          $attendanceDay = new \App\Models\AttendanceDay();
+          $attendanceDay->day = 7;
           $attendanceDay->month = 1;
           $attendanceDay->year = 2022;
-          $attendanceDay->employeeId = 2;
+          $attendanceDay->employeeId = 1;
         } else {
           $attendanceDay = $search[0];
         }
 
+        $attendanceDay->dayType = 2;
         $attendanceDay->save();
+
+        return $this->json($attendanceDay);
     }
 
     public function input()

@@ -1,3 +1,5 @@
+let modal;
+
 function displayClock() {
     const element = document.getElementById('current-time');
 
@@ -38,7 +40,8 @@ function deleteModal(employeeName) {
 }
 
 function changeDayType(day) {
-    new bootstrap.Modal(document.getElementById('changeDayModal')).show();
+    modal = new bootstrap.Modal(document.getElementById('changeDayModal'));
+    modal.show();
 }
 
 $(document).ready(function(e) {   
@@ -48,10 +51,11 @@ $(document).ready(function(e) {
           type: "POST",
           url: "?c=portal&a=setDayType",
           success: function(response) {
-              alert(response['response']);
+            $('#changeDayType2').text("Ahoj");
+            modal.hide();
           },
           error: function() {
-              alert('Error');
+              alert('Hodnotu sa nepodarilo ulozit!');
           }
       });
       return false;

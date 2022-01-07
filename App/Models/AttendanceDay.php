@@ -5,6 +5,7 @@ namespace App\Models;
 class AttendanceDay extends \App\Core\Model
 {
     public function __construct(
+        public int $id = 0,
         public int $dayType = 0,
         public int $day = 0,
         public int $month = 0,
@@ -14,7 +15,7 @@ class AttendanceDay extends \App\Core\Model
 
     static public function setDbColumns(): array
     {
-        return ['day', 'month', 'year', 'employeeId', 'dayType'];
+        return ['id', 'day', 'month', 'year', 'employeeId', 'dayType'];
     }
 
     static public function setTableName(): string

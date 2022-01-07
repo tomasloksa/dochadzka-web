@@ -17,8 +17,9 @@
     <?php for ($day = 0; $day < 31; $day++) { ?>
             <tr>
                 <th class="day-header" scope="row"><?= $day + 1 ?></th>
-                <td onclick="changeDayType(<?= $day ?>)"
-                    class="action"><?= $data['days'][$day]->dayType ?? "Pracovný deň" ?></td>
+                <td onclick="changeDayType(<?= $day + 1 ?>)"
+                    class="action"
+                    id="changeDayType<?= $day + 1 ?>"><?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?></td>
                 <?php foreach ((array)$data['logs'][$day] as $action) { ?>
                     <td class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
                 <?php } ?>

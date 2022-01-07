@@ -48,7 +48,7 @@ class App
         call_user_func([$this->router->getController(), 'setApp'], $this);
 
         // call appropriate method of the controller class
-        $response =  call_user_func([$this->router->getController(), $this->router->getAction()]);
+        $response = call_user_func([$this->router->getController(), $this->router->getAction()]);
 
         $response->generate();
 
