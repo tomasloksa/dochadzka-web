@@ -150,6 +150,27 @@ form {
   width: 20rem;
 }
 
+.type {
+  width: 20rem;
+}
+
+.day-type-select {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: inherit;
+}
+
+.day-type {
+  width: 24%;
+}
+
+.modal-header {
+  align-items: center;
+  padding: 1rem 1.5rem;
+}
+
 .day-header {
   width: 2rem;
 }

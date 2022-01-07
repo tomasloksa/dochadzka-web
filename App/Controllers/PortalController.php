@@ -25,11 +25,12 @@ class PortalController extends AControllerRedirect
         }
             
         $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ $id ]);
-        $attendanceDays = AttendanceDay::getAll();
+        $attendanceDays = AttendanceDay::getAll("employeeId = ?", [ $id ]);
 
-        $actionsByDay = new \SplFixedArray(31);
+        $actionsByDay = new \SplFixedArray(32);
         foreach ($attendanceLogs as &$log) {
-            $day = date("d", strtotime($log->time));
+            $day = date("j", strtotime($log->time));
+            $this->debug_to_console($day);
             $array = $actionsByDay[$day];
             if (is_null($array)) {
                 $array = [];
@@ -38,44 +39,48 @@ class PortalController extends AControllerRedirect
             $actionsByDay[$day] = $array;
         }
 
-        $dayTypes = new \SplFixedArray(31);
+        $dayTypes = new \SplFixedArray(32);
         foreach ($attendanceDays as &$day) {
             $dayTypes[$day->day] = $day;
         }
+
+        $month = 1;
+        $year = 2022;
         
         return $this->html([
             'logs' => $actionsByDay,
             'name' => $name,
+            'userId' => $id,
             'days' => $dayTypes,
-            'dayTypes' => DayType::DAYTYPE
+            'dayTypes' => DayType::DAYTYPE,
+            'month' => $month,
+            'year' => $year
         ]);
     }
 
-    public function setDayType() {
+    public function setDayType() 
+    {
         $this->redirectHomeIfNotAdmin();
 
         $search = \App\Models\AttendanceDay::getAll(
           "day = ? AND month = ? AND year = ?", 
-          /*[ 
+          [ 
             $this->request()->getValue('day'),
             $this->request()->getValue('month'),
             $this->request()->getValue('year'),
-          ]*/
-          [ 
-            5,1,2022
           ]
         );
         if (empty($search)) {
           $attendanceDay = new \App\Models\AttendanceDay();
-          $attendanceDay->day = 7;
-          $attendanceDay->month = 1;
-          $attendanceDay->year = 2022;
-          $attendanceDay->employeeId = 1;
+          $attendanceDay->day = $this->request()->getValue('day');
+          $attendanceDay->month = $this->request()->getValue('month');
+          $attendanceDay->year = $this->request()->getValue('year');
+          $attendanceDay->employeeId = $this->request()->getValue('userId');
         } else {
           $attendanceDay = $search[0];
         }
 
-        $attendanceDay->dayType = 2;
+        $attendanceDay->dayType = array_search($this->request()->getValue('dayType'), DayType::DAYTYPE);
         $attendanceDay->save();
 
         return $this->json($attendanceDay);
@@ -226,4 +231,12 @@ class PortalController extends AControllerRedirect
             $this->redirect("home");
         }
     }
+
+    private function debug_to_console($data) {
+      $output = $data;
+      if (is_array($output))
+          $output = implode(',', $output);
+  
+      echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+  }
 }

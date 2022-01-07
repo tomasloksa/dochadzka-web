@@ -1,4 +1,4 @@
-let modal;
+let modal, day, month, year, userId;
 
 function displayClock() {
     const element = document.getElementById('current-time');
@@ -39,19 +39,25 @@ function deleteModal(employeeName) {
     name.innerText = employeeName;
 }
 
-function changeDayType(day) {
+function changeDayType(paDay, paMonth, paYear, paUserId) {
     modal = new bootstrap.Modal(document.getElementById('changeDayModal'));
     modal.show();
+    day = paDay;
+    month = paMonth;
+    year = paYear;
+    userId = paUserId;
 }
 
 $(document).ready(function(e) {   
   $('.day-type').click(function(e) {
       e.preventDefault();
+      let dayType = $(this).val();
       $.ajax({
           type: "POST",
           url: "?c=portal&a=setDayType",
+          data: { day, month, year, dayType, userId },
           success: function(response) {
-            $('#changeDayType2').text("Ahoj");
+            $('#changeDayType' + day).text(dayType);
             modal.hide();
           },
           error: function() {
