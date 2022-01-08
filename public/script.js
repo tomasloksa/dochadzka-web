@@ -48,13 +48,23 @@ function changeDayType(paDay, paMonth, paYear, paUserId) {
     userId = paUserId;
 }
 
-function editAction(paTime, paId, paUserId, paAction) {
+function editAction(paTime, paUserId, paId = null, paAction = -1) {
     modal = new bootstrap.Modal(document.getElementById('changeActionModal'));
     modal.show();
-    time = paTime;
+    time = new Date(paTime);
     id = paId;
     userId = paUserId;
     action = paAction;
+      
+    if (paAction == -1) {
+      var now = new Date();
+      $('#deleteAction').hide(0);
+      $('#modalHeaderDate').text("Pridanie novej akcie");
+      $('#actionTime').val(now.getHours().toString().padStart(2,0) + ":" + now.getMinutes().toString().padStart(2,0));
+    } else {
+      $('#modalHeaderDate').text(time.getDate() + "." + (time.getMonth() + 1) + "." + time.getFullYear());
+      $('#actionTime').val(time.getHours().toString().padStart(2,0) + ":" + time.getMinutes().toString().padStart(2,0));
+    }
 }
 
 $(document).ready(function(e) {   
@@ -76,15 +86,15 @@ $(document).ready(function(e) {
       return false;
   });
 
-  $('#sa').click(function(e) {
+  $('#saveAction').click(function(e) {
     e.preventDefault();
-    let dayType = $(this).val();
+    var selected = $('#actionTime').val().split(":");
+    var newTime = new Date(time.getUTCFullYear(), time.getMonth(), time.getDate(), parseInt(selected[0]) + 1, selected[1]);
     $.ajax({
         type: "POST",
         url: "?c=portal&a=editAction",
-        data: { id, userId, time, action },
+        data: { id, userId, time: newTime.toISOString().slice(0, 19).replace('T', ' '), action: $('#actionSelect').prop('selectedIndex') + 1 },
         success: function(response) {
-          $('#changeDayType' + day).text(dayType);
           modal.hide();
         },
         error: function() {
@@ -92,5 +102,20 @@ $(document).ready(function(e) {
         }
     });
     return false;
-});
+  });
+  $('#deleteAction').click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: "POST",
+        url: "?c=portal&a=editAction",
+        data: { id, action: -1 },
+        success: function(response) {
+          modal.hide();
+        },
+        error: function() {
+            alert('Hodnotu sa nepodarilo ulozit!');
+        }
+    });
+    return false;
+  });
 });

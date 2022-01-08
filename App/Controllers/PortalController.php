@@ -24,13 +24,15 @@ class PortalController extends AControllerRedirect
             $name = $_SESSION['name'];
         }
             
-        $attendanceLogs = AttendanceLog::getAll("employeeId = ?", [ $id ]);
-        $attendanceDays = AttendanceDay::getAll("employeeId = ?", [ $id ]);
+        $month = date('m');
+        $year = date('Y');
+
+        $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND MONTH(time) = ? AND YEAR(time) = ?", [ $id, $month, $year ]);
+        $attendanceDays = AttendanceDay::getAll("employeeId = ? AND month = ? AND year = ?", [ $id, $month, $year ]);
 
         $actionsByDay = new \SplFixedArray(32);
         foreach ($attendanceLogs as &$log) {
             $day = date("j", strtotime($log->time));
-            $this->debug_to_console($day);
             $array = $actionsByDay[$day];
             if (is_null($array)) {
                 $array = [];
@@ -43,9 +45,6 @@ class PortalController extends AControllerRedirect
         foreach ($attendanceDays as &$day) {
             $dayTypes[$day->day] = $day;
         }
-
-        $month = date('m');
-        $year = date('Y');
         
         return $this->html([
             'logs' => $actionsByDay,
@@ -84,6 +83,28 @@ class PortalController extends AControllerRedirect
         $attendanceDay->save();
 
         return $this->json($attendanceDay);
+    }
+
+    public function editAction() 
+    {
+        $this->redirectHomeIfNotAdmin();
+        $id = $this->request()->getValue('id');
+
+        if(!empty($id)) {
+          $action = \App\Models\AttendanceLog::getOne($id);
+          if ($this->request()->getValue('action') == -1)
+            $action->delete();
+            return $this->json("");
+        } else {
+          $action = new \App\Models\AttendanceLog();
+          $action->employeeId = $this->request()->getValue('userId');
+        }
+
+        $action->time = $this->request()->getValue('time');
+        $action->action = $this->request()->getValue('action');
+        $action->save();
+
+        return $this->json($action);
     }
 
     public function input()
@@ -167,7 +188,7 @@ class PortalController extends AControllerRedirect
         $this->redirectHomeIfNotAdmin();
 
         $id = $this->request()->getValue('id');
-        
+
         if ($id > 0) {
             $employee = Employee::getOne($id);
         } else {

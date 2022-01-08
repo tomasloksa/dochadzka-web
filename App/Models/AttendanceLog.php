@@ -7,8 +7,8 @@ class AttendanceLog extends \App\Core\Model
     public function __construct(
         public int $id = 0,
         public int $employeeId = 0,
+        public int $action = 0,
         public ?string $time = null,
-        public ?string $action = null,
     ) { }
 
     static public function setDbColumns(): array

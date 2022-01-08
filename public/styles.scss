@@ -183,3 +183,13 @@ label {
 .padding-left {
   padding-left: 3rem;
 }
+
+.modal-btns {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.btn-modal {
+  flex-grow: 1;
+}

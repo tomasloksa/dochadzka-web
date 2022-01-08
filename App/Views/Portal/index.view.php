@@ -7,24 +7,29 @@
     <tr>
         <th scope="col">Deň</th>
         <th scope="col">Typ</th>
-        <?php for ($i = 0; $i < 5; $i++) { ?>
+        <?php 
+          $max=0; 
+          for ($day = 1; $day <= 31; $day++) {
+            $max = max($max, count((array)$data['logs'][$day]));
+          }
+          for ($i = 0; $i <= $max; $i++) { ?>
             <th scope="col"></th>
         <?php } ?>
         <th scope="col">Spolu</th>
     </tr>
     </thead>
     <tbody>
-    <?php for ($day = 1; $day < 31; $day++) { ?>
-            <tr>
-                <th class="day-header" scope="row"><?= $day ?></th>
-                <td onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" class="type dropdown-toggle" id="changeDayType<?= $day ?>">
-                  <?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?>
-                </td>
-                <?php foreach ((array)$data['logs'][$day] as $action) { ?>
-                    <?= $time = explode(" ", $action->time)[1] ?>
-                    <td onclick="editAction(<?= $action->time ?>, <?= $action->id ?>, <?= $action->employeeId ?>, <?= $action->action ?>)" class="action"><?= $time[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
-                <?php } ?>
-            </tr>
+    <?php for ($day = 1; $day <= 31; $day++) { ?>
+      <tr>
+          <th class="day-header" scope="row"><?= $day ?></th>
+          <td onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" class="type dropdown-toggle" id="changeDayType<?= $day ?>">
+            <?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?>
+          </td>
+          <?php foreach ((array)$data['logs'][$day] as $action) { ?>
+              <td onclick="editAction(&quot;<?= $action->time ?>&quot;, <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
+          <?php } ?>
+          <td onclick="editAction('<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+      </tr>
     <?php } ?>
     </tbody>
 </table>
@@ -53,7 +58,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span>25. den. 2021 TODO</span>
+                <span id="modalHeaderDate"></span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <i class="fas fa-times"></i>
                 </button>
@@ -61,14 +66,17 @@
             <div class="modal-body">
                 <form class="buttons day-type-select" method="post">
                     <label for="time" class="padding-left">Čas akcie:</label>
-                    <input type="time" id="time" step="1" required>
+                    <input type="time" id="actionTime" required>
                     <label for="actionSelect">Akcia:</label>
                     <select name="action" id="actionSelect">
                       <?php foreach (App\Models\Actions::ACTIONS as $action) { ?>
                         <option name="action" value="<?= $action ?>"><?= $action ?></option>
                       <?php } ?>
                     </select>
-                    <button type="button" id="saveAction" class="btn btn-primary btn-block">Uložiť</button>
+                    <div class="modal-btns">
+                      <button type="button" id="saveAction" class="btn btn-primary btn-modal">Uložiť</button>
+                      <button type="button" id="deleteAction" class="btn btn-danger btn-modal">Zmazať</button>
+                    </div>
                 </form>
             </div>
         </div>
