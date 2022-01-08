@@ -1,4 +1,4 @@
-let modal, day, month, year, userId;
+let modal, day, month, year, userId, id, time, action;
 
 function displayClock() {
     const element = document.getElementById('current-time');
@@ -48,6 +48,15 @@ function changeDayType(paDay, paMonth, paYear, paUserId) {
     userId = paUserId;
 }
 
+function editAction(paTime, paId, paUserId, paAction) {
+    modal = new bootstrap.Modal(document.getElementById('changeActionModal'));
+    modal.show();
+    time = paTime;
+    id = paId;
+    userId = paUserId;
+    action = paAction;
+}
+
 $(document).ready(function(e) {   
   $('.day-type').click(function(e) {
       e.preventDefault();
@@ -66,4 +75,22 @@ $(document).ready(function(e) {
       });
       return false;
   });
+
+  $('#sa').click(function(e) {
+    e.preventDefault();
+    let dayType = $(this).val();
+    $.ajax({
+        type: "POST",
+        url: "?c=portal&a=editAction",
+        data: { id, userId, time, action },
+        success: function(response) {
+          $('#changeDayType' + day).text(dayType);
+          modal.hide();
+        },
+        error: function() {
+            alert('Hodnotu sa nepodarilo ulozit!');
+        }
+    });
+    return false;
+});
 });

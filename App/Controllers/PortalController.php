@@ -44,8 +44,8 @@ class PortalController extends AControllerRedirect
             $dayTypes[$day->day] = $day;
         }
 
-        $month = 1;
-        $year = 2022;
+        $month = date('m');
+        $year = date('Y');
         
         return $this->html([
             'logs' => $actionsByDay,
@@ -167,17 +167,17 @@ class PortalController extends AControllerRedirect
         $this->redirectHomeIfNotAdmin();
 
         $id = $this->request()->getValue('id');
-        $surname = $this->request()->getValue('surname');
+        
         if ($id > 0) {
             $employee = Employee::getOne($id);
         } else {
             $employee = new Employee;
-            $employee->companyId = 2;
+            $employee->companyId = $_SESSION['companyId'];
             $employee->password = "heslo"; //TODO Tu by asi bolo fajn nastavit lowercase priezvisko bez diakritiky, alebo uplne zmenit registraciu
         }
 
         $employee->name = $this->request()->getValue('name');
-        $employee->surname = $surname;
+        $employee->surname = $this->request()->getValue('surname');;
         $employee->mail = $this->request()->getValue('mail');
         $employee->save();
 
