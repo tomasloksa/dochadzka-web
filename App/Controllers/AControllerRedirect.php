@@ -28,7 +28,8 @@ abstract class AControllerRedirect extends \App\Core\AControllerBase
     protected function redirectHomeIfNotAdmin()
     {
         if ($_SESSION['role'] < 1) {
-            $this->redirect("home");
+          header("HTTP/1.1 403 Forbidden" );
+          $this->redirect("portal");
         }
     }
 }

@@ -2,6 +2,7 @@
 session_start();
 
 require "ClassLoader.php";
+require('FirePHPCore/fb.php');
 
 use App\App;
 

@@ -32,6 +32,11 @@ class Auth
         return isset($_SESSION['name']);
     }
 
+    public static function isAdmin()
+    {
+        return isset($_SESSION['role']) && $_SESSION['role'] > 0;
+    }
+
     public static function logout()
     {
         unset($_SESSION['name']);

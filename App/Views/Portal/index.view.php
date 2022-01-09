@@ -26,14 +26,19 @@
     <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
       <tr id="row<?=$day?>">
           <th class="day-header" scope="row"><?= $day ?></th>
-          <td onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" class="type dropdown-toggle" id="changeDayType<?= $day ?>">
+          <td <?php if (\App\Auth::isAdmin()) { ?> onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" <?php } ?> 
+              class="type dropdown-toggle" id="changeDayType<?= $day ?>">
             <?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?>
           </td>
           <?php for ($i = 0; $i < count((array)$data['logs'][$day]); $i++) { ?>
             <?php $action = $data['logs'][$day][$i] ?>
-              <td onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
+              <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?>  class="action">
+                <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?>
+              </td>
           <?php } ?>
-          <td onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+          <?php if (\App\Auth::isAdmin()) { ?>
+            <td onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+          <?php } ?>
       </tr>
     <?php } ?>
     </tbody>

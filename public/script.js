@@ -129,8 +129,8 @@ $(document).ready(function(e) {
         data: { id, action: -1 },
         success: function(response) {
           console.log("#row" + time.getDate());
-          var row = document.getElementById("#row" + time.getDate());
-          row.deleteCell(column);
+          var row = document.getElementById("row" + (time.getDate()));
+          row.deleteCell(column + 2);
           modal.hide();
         },
         error: function() {
