@@ -7,7 +7,6 @@ use App\Models\Actions;
 use App\Models\DayType;
 use App\Models\AttendanceLog;
 use App\Models\AttendanceDay;
-use App\Auth;
 
 class PortalController extends AControllerRedirect
 {
@@ -24,10 +23,10 @@ class PortalController extends AControllerRedirect
             $name = $_SESSION['name'];
         }
             
-        $month = date('m');
-        $year = date('Y');
+        $month = $this->request()->getValue('month') ?? date('m');
+        $year = $this->request()->getValue('year') ?? date('Y');
 
-        $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND MONTH(time) = ? AND YEAR(time) = ?", [ $id, $month, $year ]);
+        $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND MONTH(time) = ? AND YEAR(time) = ? ORDER BY time ASC", [ $id, $month, $year ]);
         $attendanceDays = AttendanceDay::getAll("employeeId = ? AND month = ? AND year = ?", [ $id, $month, $year ]);
 
         $actionsByDay = new \SplFixedArray(32);
@@ -134,81 +133,6 @@ class PortalController extends AControllerRedirect
         $this->redirect('portal', 'index');
     }
 
-    public function manage()
-    {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
-
-        $employees = Employee::getAll();
-
-        return $this->html([
-            'error' => $this->request()->getValue('error'),
-            'employees' => $employees
-        ]);
-    }
-
-    public function removeEmployee()
-    {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
-
-        $employeeId = $this->request()->getValue('id');
-        $employee = Employee::getOne($employeeId);
-        if ($_SESSION['companyId'] == $employee->companyId) {
-            $employee->delete();
-            $this->redirect('portal', 'manage');
-        } else {
-            $this->redirect('portal', 'manage', ['error' => 'Nie je možné vymazať vedúceho zamestnanca!']);
-        }
-    }
-
-    public function employeeEdit()
-    {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
-
-        $id = $this->request()->getValue('id');
-        if (isset($id)) {
-            $employee = Employee::getOne($id);
-
-            if ($_SESSION['companyId'] == $employee->companyId) {
-                return $this->html([
-                    'error' => $this->request()->getValue('error'),
-                    'employee' => $employee
-                ]);
-            }
-        }
-
-        return $this->html();
-    }
-
-    public function saveEmployee() 
-    {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
-
-        $id = $this->request()->getValue('id');
-
-        if ($id > 0) {
-            $employee = Employee::getOne($id);
-        } else {
-            $employee = new Employee;
-            $employee->companyId = $_SESSION['companyId'];
-            $employee->password = "heslo"; //TODO Tu by asi bolo fajn nastavit lowercase priezvisko bez diakritiky, alebo uplne zmenit registraciu
-        }
-
-        $employee->name = $this->request()->getValue('name');
-        $employee->surname = $this->request()->getValue('surname');;
-        $employee->mail = $this->request()->getValue('mail');
-        $employee->save();
-
-        if ($employee->id == $_SESSION['id']) {
-            Auth::setSessionData($employee);
-        }
-
-        $this->redirect('portal', 'manage');
-    }
-
     public function settings()
     {
         $this->redirectHomeIfNotLogged();
@@ -238,26 +162,4 @@ class PortalController extends AControllerRedirect
             $this->redirect('portal', 'settings', ['error' => 'Nesprávne zadané pôvodné heslo!']);
         }
     }
-
-    private function redirectHomeIfNotLogged() 
-    {
-        if (!Auth::isLogged()) {
-            $this->redirect("home");
-        }
-    }
-
-    private function redirectHomeIfNotAdmin()
-    {
-        if ($_SESSION['role'] < 1) {
-            $this->redirect("home");
-        }
-    }
-
-    private function debug_to_console($data) {
-      $output = $data;
-      if (is_array($output))
-          $output = implode(',', $output);
-  
-      echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-  }
 }

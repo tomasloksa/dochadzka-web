@@ -56,7 +56,7 @@
                     </li>
                     <?php if ($_SESSION['role'] == 1) { ?>
                         <li class="nav-item <?php if($page == 'manage'){ echo 'active';}?>">
-                            <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
+                            <a href="?c=manage&a=index" class="nav-link">Správa zamestnancov</a>
                         </li>
                     <?php } ?>
                     <li class="nav-item <?php if($page == 'settings'){ echo 'active';}?>">

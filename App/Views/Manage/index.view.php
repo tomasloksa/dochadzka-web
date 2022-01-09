@@ -23,7 +23,7 @@
                         <th scope="col">Priezvisko</th>
                         <th scope="col">Mail</th>
                         <th>
-                            <a href="?c=portal&a=employeeEdit" class="btn btn-success">
+                            <a href="?c=manage&a=employeeEdit" class="btn btn-success">
                                 Pridať nového zamestnanca
                             </a>
                         </th>
@@ -40,7 +40,7 @@
                                 <a href="?c=portal&a=index&id=<?= $employee->id ?>" class="btn btn-info">
                                     Prehľad dochádzky
                                 </a>
-                                <a href="?c=portal&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning">
+                                <a href="?c=manage&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning">
                                     Upraviť
                                 </a>
                                 <a onclick="deleteModal('<?= $employee->name ?> <?= $employee->surname ?>')"
@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Návrat</button>
-                <a href="?c=portal&a=removeEmployee&id=<?= $employee->id ?>" class="btn btn-danger">Odstrániť</a>
+                <a href="?c=manage&a=removeEmployee&id=<?= $employee->id ?>" class="btn btn-danger">Odstrániť</a>
             </div>
         </div>
     </div>

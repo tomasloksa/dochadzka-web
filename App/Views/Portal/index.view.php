@@ -1,7 +1,11 @@
 <?php /** @var Array $data */ ?>
 
 <h3>Dochádzka používateľa: <?= $data['name'] ?></h3>
-<h3><?= date('F Y', mktime(0, 0, 0, $data['month'], 1, $data['year'])); ?></h3>
+<div class="index-date">
+    <a class="btn btn-outline-dark" onclick="addMonth(-1, <?=$data['month']?>, <?=$data['year']?>)"><i class="fas fa-chevron-left"></i></a>
+    <h3 class="current-month"><?= date('F Y', mktime(0, 0, 0, $data['month'], 1, $data['year'])); ?></h3>
+    <a class="btn btn-outline-dark" onclick="addMonth(1, <?=$data['month']?>, <?=$data['year']?>)"><i class="fas fa-chevron-right"></i></a>
+</div>
 <table class="table">
     <thead>
     <tr>
@@ -19,16 +23,17 @@
     </tr>
     </thead>
     <tbody>
-    <?php for ($day = 1; $day <= 31; $day++) { ?>
-      <tr>
+    <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
+      <tr id="row<?=$day?>">
           <th class="day-header" scope="row"><?= $day ?></th>
           <td onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" class="type dropdown-toggle" id="changeDayType<?= $day ?>">
             <?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?>
           </td>
-          <?php foreach ((array)$data['logs'][$day] as $action) { ?>
-              <td onclick="editAction(&quot;<?= $action->time ?>&quot;, <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
+          <?php for ($i = 0; $i < count((array)$data['logs'][$day]); $i++) { ?>
+            <?php $action = $data['logs'][$day][$i] ?>
+              <td onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" class="action"><?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?></td>
           <?php } ?>
-          <td onclick="editAction('<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+          <td onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
       </tr>
     <?php } ?>
     </tbody>
@@ -38,7 +43,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <span>25. den. 2021 TODO</span>
+                <span id="modalHeaderDate"></span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <i class="fas fa-times"></i>
                 </button>

@@ -193,3 +193,16 @@ label {
 .btn-modal {
   flex-grow: 1;
 }
+
+.index-date {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.current-month {
+  min-width: 13rem;
+}

@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Auth;
+
 abstract class AControllerRedirect extends \App\Core\AControllerBase
 {
     protected function redirect($controller, $action = "", $params = [])
@@ -14,5 +16,19 @@ abstract class AControllerRedirect extends \App\Core\AControllerBase
             $location .= "&$name=" . urlencode($value);
         }
         header($location);
+    }
+
+    protected function redirectHomeIfNotLogged() 
+    {
+        if (!Auth::isLogged()) {
+            $this->redirect("home");
+        }
+    }
+
+    protected function redirectHomeIfNotAdmin()
+    {
+        if ($_SESSION['role'] < 1) {
+            $this->redirect("home");
+        }
     }
 }
