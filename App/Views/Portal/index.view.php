@@ -13,7 +13,7 @@
         <th scope="col">Typ</th>
         <?php 
           $max=0; 
-          for ($day = 1; $day <= 31; $day++) {
+          for ($day = 0; $day < 31; $day++) {
             $max = max($max, count((array)$data['logs'][$day]));
           }
           for ($i = 0; $i <= $max; $i++) { ?>
@@ -25,20 +25,33 @@
     <tbody>
     <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
       <tr id="row<?=$day?>">
+          <!-- HEADER -->
           <th class="day-header" scope="row"><?= $day ?></th>
-          <td <?php if (\App\Auth::isAdmin()) { ?> onclick="changeDayType(<?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" <?php } ?> 
-              class="type dropdown-toggle" id="changeDayType<?= $day ?>">
-            <?= isset($data['days'][$day]) ? App\Models\DayType::DAYTYPE[$data['days'][$day]->dayType] : "Pracovný deň" ?>
+
+          <!-- DAYTYPE -->
+          <td <?php if (\App\Auth::isAdmin()) { ?> onclick="changeDayType(<?=$data['days'][$day - 1]->id?>, <?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" <?php } ?> 
+              class="type <?php if (\App\Auth::isAdmin()) { ?>dropdown-toggle <?php } ?>" id="changeDayType<?= $day ?>">
+                <?= isset($data['days'][$day - 1]) ? App\Models\DayType::DAYTYPE[$data['days'][$day - 1]->dayType] : "Pracovný deň" ?>
           </td>
-          <?php for ($i = 0; $i < count((array)$data['logs'][$day]); $i++) { ?>
-            <?php $action = $data['logs'][$day][$i] ?>
-              <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?>  class="action">
-                <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Actions::ACTIONS[$action->action] ?>
-              </td>
+
+          <!-- ACTIONS -->
+          <?php for ($i = 0; $i < $max; $i++) { ?>
+            <?php if ($i < count((array)$data['logs'][$day - 1])) { ?>
+              <?php $action = $data['logs'][$day - 1][$i] ?>
+                <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
+                  <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Action::ActionStrings[$action->action] ?>
+                  <i class="far fa-edit"></i>
+                </td>
+            <?php } else { echo "<td></td>"; } ?>
           <?php } ?>
+
+          <!-- NEW ACTION -->
           <?php if (\App\Auth::isAdmin()) { ?>
-            <td onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+            <td class="action" onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
           <?php } ?>
+          
+          <!-- TOTAL -->
+          <td><?= $data['days'][$day - 1]->totalTime->format('G:i') ?></td>
       </tr>
     <?php } ?>
     </tbody>
@@ -79,8 +92,8 @@
                     <input type="time" id="actionTime" required>
                     <label for="actionSelect">Akcia:</label>
                     <select name="action" id="actionSelect">
-                      <?php foreach (App\Models\Actions::ACTIONS as $action) { ?>
-                        <option name="action" value="<?= $action ?>"><?= $action ?></option>
+                      <?php for ($i = 0; $i < count(App\Models\Action::ActionStrings); $i++) { ?>
+                        <option name="action" value="<?= $i ?>"><?= App\Models\Action::ActionStrings[$i] ?></option>
                       <?php } ?>
                     </select>
                     <div class="modal-btns">

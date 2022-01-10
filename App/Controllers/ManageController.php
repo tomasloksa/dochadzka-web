@@ -9,8 +9,7 @@ class ManageController extends AControllerRedirect
 {
     public function index()
     {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
+        $this->redirectIfNotAdmin();
 
         $employees = Employee::getAll();
 
@@ -22,8 +21,7 @@ class ManageController extends AControllerRedirect
 
     public function removeEmployee()
     {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
+        $this->redirectIfNotAdmin();
 
         $employeeId = $this->request()->getValue('id');
         $employee = Employee::getOne($employeeId);
@@ -37,8 +35,7 @@ class ManageController extends AControllerRedirect
 
     public function employeeEdit()
     {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
+        $this->redirectIfNotAdmin();
 
         $id = $this->request()->getValue('id');
         if (isset($id)) {
@@ -57,8 +54,7 @@ class ManageController extends AControllerRedirect
 
     public function saveEmployee() 
     {
-        $this->redirectHomeIfNotLogged();
-        $this->redirectHomeIfNotAdmin();
+        $this->redirectIfNotAdmin();
 
         $id = $this->request()->getValue('id');
 

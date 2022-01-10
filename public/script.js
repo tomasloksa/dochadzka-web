@@ -39,9 +39,10 @@ function deleteModal(employeeName) {
     name.innerText = employeeName;
 }
 
-function changeDayType(paDay, paMonth, paYear, paUserId) {
+function changeDayType(paId, paDay, paMonth, paYear, paUserId) {
     modal = new bootstrap.Modal(document.getElementById('changeDayModal'));
     modal.show();
+    id = paId;
     day = paDay;
     month = paMonth;
     year = paYear;
@@ -91,7 +92,7 @@ $(document).ready(function(e) {
       $.ajax({
           type: "POST",
           url: "?c=portal&a=setDayType",
-          data: { day, month, year, dayType, userId },
+          data: { id, day, month, year, dayType, userId },
           success: function() {
             $('#changeDayType' + day).text(dayType);
             modal.hide();
@@ -110,8 +111,9 @@ $(document).ready(function(e) {
     $.ajax({
         type: "POST",
         url: "?c=portal&a=editAction",
-        data: { id, userId, time: newTime.toISOString().slice(0, 19).replace('T', ' '), action: $('#actionSelect').prop('selectedIndex') + 1 },
-        success: function() {
+        data: { id, userId, time: newTime.toISOString().slice(0, 19).replace('T', ' '), action: $('#actionSelect').prop('selectedIndex') },
+        success: function(response) {
+          $("body").html(response);
           modal.hide();
         },
         error: function() {
@@ -128,9 +130,7 @@ $(document).ready(function(e) {
         url: "?c=portal&a=editAction",
         data: { id, action: -1 },
         success: function(response) {
-          console.log("#row" + time.getDate());
-          var row = document.getElementById("row" + (time.getDate()));
-          row.deleteCell(column + 2);
+          $("body").html(response);
           modal.hide();
         },
         error: function() {

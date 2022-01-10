@@ -18,18 +18,19 @@ abstract class AControllerRedirect extends \App\Core\AControllerBase
         header($location);
     }
 
-    protected function redirectHomeIfNotLogged() 
+    protected function redirectIfNotLogged() 
     {
         if (!Auth::isLogged()) {
-            $this->redirect("home");
+            exit("403 Access forbidden");
         }
     }
 
-    protected function redirectHomeIfNotAdmin()
+    protected function redirectIfNotAdmin()
     {
+        $this->redirectIfNotLogged();
         if ($_SESSION['role'] < 1) {
-          header("HTTP/1.1 403 Forbidden" );
-          $this->redirect("portal");
+            header("HTTP/1.1 403 Forbidden" );
+            exit("403 Access forbidden");
         }
     }
 }

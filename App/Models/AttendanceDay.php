@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use DateTime;
+
 class AttendanceDay extends \App\Core\Model
 {
     public function __construct(
@@ -10,7 +12,8 @@ class AttendanceDay extends \App\Core\Model
         public int $day = 0,
         public int $month = 0,
         public int $year = 0,
-        public int $employeeId = 0
+        public int $employeeId = 0,
+        public ?DateTime $totalTime = null
     ) { }
 
     static public function setDbColumns(): array
