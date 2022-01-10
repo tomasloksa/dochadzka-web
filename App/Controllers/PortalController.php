@@ -104,7 +104,7 @@ class PortalController extends AControllerRedirect
             $action = \App\Models\AttendanceLog::getOne($id);
             if ($this->request()->getValue('action') == -1) {
               $action->delete();
-              return $this->json("");
+              return $this->redirect("portal");
             }
         } else {
             $action = new \App\Models\AttendanceLog();
