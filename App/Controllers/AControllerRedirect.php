@@ -27,8 +27,7 @@ abstract class AControllerRedirect extends \App\Core\AControllerBase
 
     protected function redirectIfNotAdmin()
     {
-        $this->redirectIfNotLogged();
-        if ($_SESSION['role'] < 1) {
+        if (!Auth::isAdmin()) {
             header("HTTP/1.1 403 Forbidden" );
             exit("403 Access forbidden");
         }
