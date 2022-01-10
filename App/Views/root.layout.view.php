@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/d5898694ab.js" crossorigin="anonymous"></script>
     <script src="public/script.js"></script>
 </head>
 
@@ -55,7 +56,7 @@
                     </li>
                     <?php if ($_SESSION['role'] == 1) { ?>
                         <li class="nav-item <?php if($page == 'manage'){ echo 'active';}?>">
-                            <a href="?c=portal&a=manage" class="nav-link">Správa zamestnancov</a>
+                            <a href="?c=manage&a=index" class="nav-link">Správa zamestnancov</a>
                         </li>
                     <?php } ?>
                     <li class="nav-item <?php if($page == 'settings'){ echo 'active';}?>">

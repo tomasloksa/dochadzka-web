@@ -23,20 +23,21 @@ INSERT INTO employee VALUES  (1, 1, 'Tomas', 'Loksa', 'tomiloksa@gmail.com', 'ab
 -- INSERT INTO employee (`companyId`,`name`,`surname`,`mail`) VALUES (2, 'Hadley','Carly','turpis.Aliquam@doloregestasrhoncus.com'),(1, 'Quincy','Suki','ornare@accumsanlaoreetipsum.co.uk'),(1, 'Joseph','Brooke','Proin@NullaaliquetProin.net'),(1, 'Beau','Regan','molestie.sodales@malesuadavelvenenatis.com'),(1, 'Briar','Olympia','auctor@elit.org'),(1, 'Cameron','Bruce','sem.Pellentesque@nuncQuisque.com'),(1, 'Avram','Denise','enim@ullamcorpernisl.net'),(1, 'Lareina','Ella','turpis@ante.co.uk'),(1, 'Hannah','Troy','et.eros.Proin@eget.co.uk'),(1, 'Joan','Dara','mollis@Nuncullamcorper.net');
 
 CREATE TABLE `attendance` (
-                           `id` mediumint(8) unsigned NOT NULL auto_increment,
+                           `id` int unsigned NOT NULL auto_increment,
                            `employeeId` mediumint(8) unsigned NOT NULL,
                            `time` datetime NOT NULL,
-                           `action` varchar(10) NOT NULL,
+                           `action` smallint NOT NULL,
                            PRIMARY KEY (`id`),
                            FOREIGN KEY (`employeeId`) REFERENCES employee(id)
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE `attendanceDay` (
+                           `id` mediumint(8) unsigned NOT NULL auto_increment,
                            `day` tinyint NOT NULL check (`day` between 1 and 31),
                            `month` tinyint NOT NULL check (`month` between 1 and 12),
                            `year` smallint NOT NULL, 
                            `employeeId` mediumint(8) unsigned NULL,
                            `dayType` tinyint NOT NULL,
-                           PRIMARY KEY (`day`, `month`, `year`),
+                           PRIMARY KEY (`id`),
                            FOREIGN KEY (`employeeId`) REFERENCES employee(id)
 );

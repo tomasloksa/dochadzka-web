@@ -41,7 +41,7 @@ class Router
      */
     public function getControllerName() : string
     {
-            return empty(trim(@$_GET['c'])) ? "Home" : trim(ucfirst(strtolower($_GET['c'])));
+        return (is_null(@$_GET['c']) || empty(trim(@$_GET['c']))) ? "Home" : trim(ucfirst(strtolower($_GET['c'])));
     }
 
     /**
@@ -50,7 +50,7 @@ class Router
      */
     public function getAction(): string
     {
-        return (empty(trim(@$_GET['a'])) ? "index" : $_GET['a']);
+        return (is_null(@$_GET['a']) || empty(trim(@$_GET['a']))) ? "index" : $_GET['a'];
     }
 
     /**

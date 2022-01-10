@@ -2,19 +2,23 @@
 
 namespace App\Models;
 
+use DateTime;
+
 class AttendanceDay extends \App\Core\Model
 {
     public function __construct(
-        public DayType $dayType,
+        public int $id = 0,
+        public int $dayType = 0,
         public int $day = 0,
         public int $month = 0,
         public int $year = 0,
-        public int $userId = 0
+        public int $employeeId = 0,
+        public ?DateTime $totalTime = null
     ) { }
 
     static public function setDbColumns(): array
     {
-        return ['day', 'month', 'year', 'userId', 'dayType'];
+        return ['id', 'day', 'month', 'year', 'employeeId', 'dayType'];
     }
 
     static public function setTableName(): string

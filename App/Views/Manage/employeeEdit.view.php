@@ -6,7 +6,7 @@
     </div>
 <?php } ?>
 
-<form method="post" action="?c=portal&a=saveEmployee">
+<form method="post" action="?c=manage&a=saveEmployee">
     <input type="hidden" name="id" value="<?= $data['employee']->id ?? 0 ?>">
     <div class="form-group">
         <label>Meno</label>
