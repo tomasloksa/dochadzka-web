@@ -25,7 +25,7 @@ class AuthController extends AControllerRedirect
         $logged = Auth::login($login, $password);
 
         if ($logged) {
-            $this->redirect('portal', 'index');
+            $this->redirect('portal', 'input');
         } else {
             $this->redirect('auth', 'loginForm', ['error' => 'Nesprávne meno alebo heslo!']);
         }

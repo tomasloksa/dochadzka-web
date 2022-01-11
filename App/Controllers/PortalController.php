@@ -154,7 +154,10 @@ class PortalController extends AControllerRedirect
         $user = Employee::getOne($_SESSION['id']);
         if ($user->password == $this->request()->getValue('oldPassword')) {
             if ($this->request()->getValue('newPassword') == $this->request()->getValue('newPasswordRepeat')) {
-                $user->password = $this->request()->getValue('newPassword');
+                $password = $this->request()->getValue('newPassword');
+                $salted_hash = password_hash($password, PASSWORD_DEFAULT);
+                $user->password = $salted_hash;
+                
                 $user->save();
                 $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
             } 

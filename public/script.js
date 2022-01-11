@@ -47,7 +47,7 @@ function changeDayType(paId, paDay, paMonth, paYear, paUserId) {
     month = paMonth;
     year = paYear;
     userId = paUserId;
-    $('#modalHeaderDate').text(paDay + "." + paMonth + "." + paYear);
+    $('#dayTypeHeaderDate').text(paDay + "." + paMonth + "." + paYear);
 }
 
 function editAction(paCol, paTime, paUserId, paId = null, paAction = -1) {
@@ -62,10 +62,10 @@ function editAction(paCol, paTime, paUserId, paId = null, paAction = -1) {
     if (paAction == -1) {
       var now = new Date();
       $('#deleteAction').hide(0);
-      $('#modalHeaderDate').text("Pridanie novej akcie");
+      $('#actionHeaderDate').text("Pridanie novej akcie");
       $('#actionTime').val(now.getHours().toString().padStart(2,0) + ":" + now.getMinutes().toString().padStart(2,0));
     } else {
-      $('#modalHeaderDate').text(time.getDate() + "." + (time.getMonth() + 1) + "." + time.getFullYear());
+      $('#actionHeaderDate').text(time.getDate() + "." + (time.getMonth() + 1) + "." + time.getFullYear());
       $('#actionTime').val(time.getHours().toString().padStart(2,0) + ":" + time.getMinutes().toString().padStart(2,0));
     }
 }

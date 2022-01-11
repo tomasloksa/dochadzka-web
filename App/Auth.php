@@ -11,7 +11,7 @@ class Auth
         $users = Employee::getAll();
 
         foreach ($users as $user) {
-            if ($login == $user->mail && $password == $user->password) {
+            if ($login == $user->mail && password_verify($password, $user->password)) {
                 Auth::setSessionData($user);
                 return true;
             }

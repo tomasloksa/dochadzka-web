@@ -14,7 +14,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="d-flex justify-content-start flex-wrap">
+        <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
@@ -22,7 +22,7 @@
                         <th scope="col">Meno</th>
                         <th scope="col">Priezvisko</th>
                         <th scope="col">Mail</th>
-                        <th>
+                        <th scope="col">
                             <a href="?c=manage&a=employeeEdit" class="btn btn-success">
                                 Pridať nového zamestnanca
                             </a>
@@ -37,14 +37,14 @@
                             <td><?= $employee->surname ?></td>
                             <td><?= $employee->mail ?></td>
                             <td>
-                                <a href="?c=portal&a=index&id=<?= $employee->id ?>" class="btn btn-info">
+                                <a href="?c=portal&a=index&id=<?= $employee->id ?>" class="btn btn-info manage-btn">
                                     Prehľad dochádzky
                                 </a>
-                                <a href="?c=manage&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning">
+                                <a href="?c=manage&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning manage-btn">
                                     Upraviť
                                 </a>
                                 <a onclick="deleteModal('<?= $employee->name ?> <?= $employee->surname ?>')"
-                                   class="btn btn-danger">
+                                   class="btn btn-danger manage-btn">
                                     Odstrániť
                                 </a>
                             </td>
@@ -56,7 +56,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

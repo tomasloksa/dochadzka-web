@@ -18,7 +18,7 @@
 <header>
     <div class="title">
         <h1 class="heading">Dochádzkový systém</h1>
-        <div>
+        <div class="user-name">
             <?php if (isset($_SESSION['name'])) { ?>
                 <p>Prihlásený: <?php echo $_SESSION['name'] ?></p>
             <?php } ?>

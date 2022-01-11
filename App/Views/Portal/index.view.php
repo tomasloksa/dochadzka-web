@@ -16,7 +16,7 @@
           for ($day = 0; $day < 31; $day++) {
             $max = max($max, count((array)$data['logs'][$day]));
           }
-          for ($i = 0; $i <= $max; $i++) { ?>
+          for ($i = 0; $i < $max; $i++) { ?>
             <th scope="col"></th>
         <?php } ?>
         <th scope="col">Spolu</th>
@@ -57,11 +57,11 @@
     </tbody>
 </table>
 
-<div class="modal fade" id="changeDayModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="changeDayModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <span id="modalHeaderDate"></span>
+                <span id="dayTypeHeaderDate"></span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <i class="fas fa-times"></i>
                 </button>
@@ -77,23 +77,23 @@
     </div>
 </div>
 
-<div class="modal fade" id="changeActionModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+<div class="modal fade" id="changeActionModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span id="modalHeaderDate"></span>
+                <span id="actionHeaderDate"></span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
                 <form class="buttons day-type-select" method="post">
-                    <label for="time" class="padding-left">Čas akcie:</label>
+                    <label for="actionTime" class="padding-left">Čas akcie:</label>
                     <input type="time" id="actionTime" required>
                     <label for="actionSelect">Akcia:</label>
                     <select name="action" id="actionSelect">
                       <?php for ($i = 0; $i < count(App\Models\Action::ActionStrings); $i++) { ?>
-                        <option name="action" value="<?= $i ?>"><?= App\Models\Action::ActionStrings[$i] ?></option>
+                        <option value="<?= $i ?>"><?= App\Models\Action::ActionStrings[$i] ?></option>
                       <?php } ?>
                     </select>
                     <div class="modal-btns">

@@ -1,6 +1,6 @@
 <?php /** @var Array $data */ ?>
 <div class="center-clock">
-    <h1 id="current-time"></h1>
+    <h1 id="current-time">Current time goes here</h1>
     <form class="buttons" action="?c=portal&a=addAction" method="get">
         <input type="hidden" name="c" value="portal">
         <input type="hidden" name="a" value="addAction">
@@ -12,7 +12,5 @@
     </form>
 </div>
 
-<script type="text/javascript">
-    displayClock();
-</script>
+<script>displayClock();</script>
 

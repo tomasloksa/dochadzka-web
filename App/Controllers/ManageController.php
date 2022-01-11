@@ -63,11 +63,11 @@ class ManageController extends AControllerRedirect
         } else {
             $employee = new Employee;
             $employee->companyId = $_SESSION['companyId'];
-            $employee->password = "heslo"; //TODO Tu by asi bolo fajn nastavit lowercase priezvisko bez diakritiky, alebo uplne zmenit registraciu
+            $employee->password = password_hash($this->request()->getValue('surname'), PASSWORD_DEFAULT);
         }
 
         $employee->name = $this->request()->getValue('name');
-        $employee->surname = $this->request()->getValue('surname');;
+        $employee->surname = $this->request()->getValue('surname');
         $employee->mail = $this->request()->getValue('mail');
         $employee->save();
 
