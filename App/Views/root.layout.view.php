@@ -1,3 +1,8 @@
+<?php 
+    $c = $_GET['c'] ?? '';
+    $a = $_GET['a'] ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="sk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -73,11 +78,12 @@
     </nav>
 </header>
 
-<div class="content">
+<div class="content<?php if($c != 'portal' || $a != 'index') { echo ' margins';}?>">
     <?= $contentHTML ?>
 </div>
 
-<footer>
+<?php if($c != 'home' || $a != 'contact') {?>
+<footer >
     <hr>
     <div class="footer">
         <h3>Kontakt</h3>
@@ -87,5 +93,6 @@
         </p>
     </div>
 </footer>
+<?php } ?>
 </body>
 </html>

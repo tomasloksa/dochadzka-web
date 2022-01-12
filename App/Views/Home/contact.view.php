@@ -11,7 +11,7 @@
 
 <div class="contact-form">
     <h3>Kontaktný formulár</h3>
-    <form>
+    <form method="post" action="?c=home&a=sendEmail">
         <label for="name">Meno:</label><br>
         <input type="text" id="name" name="name" placeholder="Meno a Priezvisko"><br>
 

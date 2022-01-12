@@ -12,20 +12,22 @@
     </div>
 <?php } ?>
 
-<h2>Zmena hesla</h2>
-<form method="post" id="passwordForm" action="?c=portal&a=changePassword">
-    <div class="form-group">
-        <label>Pôvodné heslo</label>
-        <input type="password" id="oldPassword" name="oldPassword" maxlength="255" class="form-control" required>
-    </div>
-    <div class="form-group">
-        <label>Nové heslo</label>
-        <input type="password" id="newPassword" name="newPassword" class="form-control" maxlength="255" onkeyup="validatePasswordMatch();" required>
-    </div>
-    <div class="form-group">
-        <label>Heslo znovu</label>
-        <input type="password" id="newPasswordRepeat" name="newPasswordRepeat" class="form-control" maxlength="255" onkeyup="validatePasswordMatch();" required>
-    </div>
-    <div id="passwordMatchError"></div>
-    <input id="submitButton" type="submit" class="btn btn-primary" value="Ulož">
-</form>
+<div class="center">
+    <h2>Zmena hesla</h2>
+    <form method="post" id="passwordForm" action="?c=portal&a=changePassword">
+        <div class="form-group">
+            <label>Pôvodné heslo</label>
+            <input type="password" id="oldPassword" name="oldPassword" maxlength="255" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Nové heslo</label>
+            <input type="password" id="newPassword" name="newPassword" class="form-control" maxlength="255" onkeyup="validatePasswordMatch();" required>
+        </div>
+        <div class="form-group">
+            <label>Heslo znovu</label>
+            <input type="password" id="newPasswordRepeat" name="newPasswordRepeat" class="form-control" maxlength="255" onkeyup="validatePasswordMatch();" required>
+        </div>
+        <div id="passwordMatchError"></div>
+        <input id="submitButton" type="submit" class="btn btn-primary" value="Ulož">
+    </form>
+</div>
