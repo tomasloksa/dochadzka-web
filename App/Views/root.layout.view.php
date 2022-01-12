@@ -1,8 +1,3 @@
-<?php 
-    $c = $_GET['c'] ?? '';
-    $a = $_GET['a'] ?? '';
-?>
-
 <!DOCTYPE html>
 <html lang="sk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,7 +20,7 @@
         <h1 class="heading">Dochádzkový systém</h1>
         <div class="user-name">
             <?php if (isset($_SESSION['name'])) { ?>
-                <p>Prihlásený: <?php echo $_SESSION['name'] ?></p>
+                <p class="logged-user"><i class="fas fa-user"></i> <?php echo $_SESSION['name'] ?></p>
             <?php } ?>
         </div>
     </div>
@@ -37,7 +32,10 @@
 
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul class="navbar-nav mt-2 mt-lg-0">
-                <?php $page = $_GET['a'] ?? ""; ?>
+                <?php 
+                    $page = $_GET['a'] ?? "";
+                    $c = $_GET['c'] ?? "";
+                ?>
                 <li class="nav-item <?php if(empty($page)){ echo 'active';}?>">
                     <a href="?c=home" class="nav-link">Domov</a>
                 </li>
@@ -53,14 +51,14 @@
             </ul>
             <?php if (\App\Auth::isLogged()) { ?>
                 <ul class="navbar-nav mt-2 mt-lg-0">
-                    <li class="nav-item <?php if($page == 'index'){ echo 'active';}?>">
+                    <li class="nav-item <?php if($c == 'portal' && $page == 'index'){ echo 'active';}?>">
                         <a href="?c=portal&a=index" class="nav-link">Prehľad dochádzky</a>
                     </li>
                     <li class="nav-item <?php if($page == 'input'){ echo 'active';}?>">
                         <a href="?c=portal&a=input" class="nav-link">Vloženie dochádzky</a>
                     </li>
                     <?php if ($_SESSION['role'] == 1) { ?>
-                        <li class="nav-item <?php if($page == 'manage'){ echo 'active';}?>">
+                        <li class="nav-item <?php if($c == 'manage'){ echo 'active';}?>">
                             <a href="?c=manage&a=index" class="nav-link">Správa zamestnancov</a>
                         </li>
                     <?php } ?>
@@ -78,11 +76,11 @@
     </nav>
 </header>
 
-<div class="content<?php if($c != 'portal' || $a != 'index') { echo ' margins';}?>">
+<div class="content<?php if($c != 'portal' || $page != 'index') { echo ' margins';}?>">
     <?= $contentHTML ?>
 </div>
 
-<?php if($c != 'home' || $a != 'contact') {?>
+<?php if($c != 'home' || $page != 'contact') {?>
 <footer >
     <hr>
     <div class="footer">
