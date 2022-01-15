@@ -114,7 +114,7 @@ class PortalController extends AControllerRedirect
         $action->action = $this->request()->getValue('action');
         $action->save();
 
-        return $this->redirect("portal");
+        return $this->redirect("portal", "index");
     }
 
     public function input()

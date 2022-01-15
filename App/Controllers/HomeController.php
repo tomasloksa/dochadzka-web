@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Core\AControllerBase;
-
 class HomeController extends AControllerRedirect
 {
 
