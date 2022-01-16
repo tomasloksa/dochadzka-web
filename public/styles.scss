@@ -182,24 +182,24 @@ label {
     padding-bottom: 1rem;
     font-size: 4rem;
   }
+}
 
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    max-width: 100%;
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  max-width: 100%;
 
-    @media only screen and (max-width: $mobile-size) {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    @media only screen and (min-width: ($mobile-size + 1)) {
-      .btn {
-        width: 20%;
-        height: 7.5rem;
-      }
+  @media only screen and (max-width: $mobile-size) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media only screen and (min-width: ($mobile-size + 1)) {
+    .btn {
+      width: 20%;
+      height: 7.5rem;
     }
   }
 }
@@ -226,9 +226,6 @@ label {
   max-width: inherit;
 }
 
-.day-type {
-  width: 24%;
-}
 
 .modal-header {
   align-items: center;

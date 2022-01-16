@@ -6,56 +6,58 @@
     <h3 class="current-month"><?= date('F Y', mktime(0, 0, 0, $data['month'], 1, $data['year'])); ?></h3>
     <a class="btn btn-outline-dark" onclick="addMonth(1, <?=$data['month']?>, <?=$data['year']?>)"><i class="fas fa-chevron-right"></i></a>
 </div>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Deň</th>
-        <th scope="col">Typ</th>
-        <?php 
-          $max=0; 
-          for ($day = 0; $day < 31; $day++) {
-            $max = max($max, count((array)$data['logs'][$day]));
-          }
-          for ($i = 0; $i < $max; $i++) { ?>
-            <th scope="col"></th>
-        <?php } ?>
-        <th scope="col">Spolu</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
-      <tr id="row<?=$day?>">
-          <!-- HEADER -->
-          <th class="day-header" scope="row"><?= $day ?></th>
-
-          <!-- DAYTYPE -->
-          <td <?php if (\App\Auth::isAdmin()) { ?> onclick="changeDayType(<?=$data['days'][$day - 1]->id?>, <?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" <?php } ?> 
-              class="type <?php if (\App\Auth::isAdmin()) { ?>dropdown-toggle <?php } ?>" id="changeDayType<?= $day ?>">
-                <?= isset($data['days'][$day - 1]) ? App\Models\DayType::DAYTYPE[$data['days'][$day - 1]->dayType] : "Pracovný deň" ?>
-          </td>
-
-          <!-- ACTIONS -->
-          <?php for ($i = 0; $i < $max; $i++) { ?>
-            <?php if ($i < count((array)$data['logs'][$day - 1])) { ?>
-              <?php $action = $data['logs'][$day - 1][$i] ?>
-                <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
-                  <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Action::ActionStrings[$action->action] ?>
-                  <i class="far fa-edit"></i>
-                </td>
-            <?php } else { echo "<td></td>"; } ?>
+<div class="table-responsive">
+  <table class="table">
+      <thead>
+      <tr>
+          <th scope="col">Deň</th>
+          <th scope="col">Typ</th>
+          <?php 
+            $max=0; 
+            for ($day = 0; $day < 31; $day++) {
+              $max = max($max, count((array)$data['logs'][$day]));
+            }
+            for ($i = 0; $i < $max; $i++) { ?>
+              <th scope="col"></th>
           <?php } ?>
-
-          <!-- NEW ACTION -->
-          <?php if (\App\Auth::isAdmin()) { ?>
-            <td class="action" onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
-          <?php } ?>
-          
-          <!-- TOTAL -->
-          <td><?= $data['days'][$day - 1]->totalTime->format('G:i') ?></td>
+          <th scope="col">Spolu</th>
       </tr>
-    <?php } ?>
-    </tbody>
-</table>
+      </thead>
+      <tbody>
+      <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
+        <tr id="row<?=$day?>">
+            <!-- HEADER -->
+            <th class="day-header" scope="row"><?= $day ?></th>
+
+            <!-- DAYTYPE -->
+            <td <?php if (\App\Auth::isAdmin()) { ?> onclick="changeDayType(<?=$data['days'][$day - 1]->id?>, <?= $day ?>, <?= $data['month']?>, <?= $data['year']?>, <?= $data['userId']?>)" <?php } ?> 
+                class="type <?php if (\App\Auth::isAdmin()) { ?>dropdown-toggle <?php } ?>" id="changeDayType<?= $day ?>">
+                  <?= isset($data['days'][$day - 1]) ? App\Models\DayType::DAYTYPE[$data['days'][$day - 1]->dayType] : "Pracovný deň" ?>
+            </td>
+
+            <!-- ACTIONS -->
+            <?php for ($i = 0; $i < $max; $i++) { ?>
+              <?php if ($i < count((array)$data['logs'][$day - 1])) { ?>
+                <?php $action = $data['logs'][$day - 1][$i] ?>
+                  <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
+                    <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Action::ActionStrings[$action->action] ?>
+                    <i class="far fa-edit"></i>
+                  </td>
+              <?php } else { echo "<td></td>"; } ?>
+            <?php } ?>
+
+            <!-- NEW ACTION -->
+            <?php if (\App\Auth::isAdmin()) { ?>
+              <td class="action" onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+            <?php } ?>
+            
+            <!-- TOTAL -->
+            <td><?= $data['days'][$day - 1]->totalTime->format('G:i') ?></td>
+        </tr>
+      <?php } ?>
+      </tbody>
+  </table>
+</div>
 
 <div class="modal fade" id="changeDayModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -67,7 +69,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form class="buttons day-type-select" method="post">
+                <form class="buttons" method="post">
                     <?php foreach (App\Models\DayType::DAYTYPE as $dayType) { ?>
                         <input class="btn btn-lg btn-primary day-type" name="action" value="<?= $dayType ?>">
                     <?php } ?>

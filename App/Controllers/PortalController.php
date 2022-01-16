@@ -104,7 +104,7 @@ class PortalController extends AControllerRedirect
             $action = \App\Models\AttendanceLog::getOne($id);
             if ($this->request()->getValue('action') == -1) {
               $action->delete();
-              return $this->redirect("portal");
+              return $this->redirect("portal", "index", ['id' => $action->employeeId]);
             }
         } else {
             $action = new \App\Models\AttendanceLog();
@@ -114,7 +114,7 @@ class PortalController extends AControllerRedirect
         $action->action = $this->request()->getValue('action');
         $action->save();
 
-        return $this->redirect("portal", "index");
+        return $this->redirect("portal", "index", ['id' => $action->employeeId]);
     }
 
     public function input()
