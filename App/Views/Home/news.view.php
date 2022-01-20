@@ -1,4 +1,4 @@
-<h2>Čo je nové?</h2>
+<h2><b>Čo je nové?</b></h2>
 <h3>1.4.0 - Pridaná PN</h3>
 <h3>1.3.0 - ⚠ Pred updatom je potrebné odinštalovať dochádzkový systém ⚠</h3>
 <ul>

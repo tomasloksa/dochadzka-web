@@ -137,39 +137,6 @@ class PortalController extends AControllerRedirect
         $this->redirect('portal', 'index');
     }
 
-    public function settings()
-    {
-        $this->redirectIfNotLogged();
-
-        return $this->html([
-            'error' => $this->request()->getValue('error'),
-            'success' => $this->request()->getValue('success')
-        ]);
-    }
-
-    public function changePassword() 
-    {
-        $this->redirectIfNotLogged();
-
-        $user = Employee::getOne($_SESSION['id']);
-        if ($user->password == $this->request()->getValue('oldPassword')) {
-            if ($this->request()->getValue('newPassword') == $this->request()->getValue('newPasswordRepeat')) {
-                $password = $this->request()->getValue('newPassword');
-                $salted_hash = password_hash($password, PASSWORD_DEFAULT);
-                $user->password = $salted_hash;
-                
-                $user->save();
-                $this->redirect('portal', 'settings', ['success' => 'Heslo bolo úspešne zmenené.']);
-            } 
-            else {
-                $this->redirect('portal', 'settings', ['error' => 'Heslá sa nezhodujú!']);
-            }
-        } 
-        else {
-            $this->redirect('portal', 'settings', ['error' => 'Nesprávne zadané pôvodné heslo!']);
-        }
-    }
-
     private function getActionsByDay($attendanceLogs) 
     {
         $actionsByDay = new \SplFixedArray(31);

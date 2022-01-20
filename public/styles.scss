@@ -26,12 +26,13 @@ h1 {
 }
 
 h2 {
-  padding-bottom: 2rem;
+  padding-bottom: 0.5rem;
 }
 
 form {
   max-width: 25rem;
   margin: inherit;
+  padding-bottom: 2rem;
 }
 
 label {
@@ -147,7 +148,9 @@ label {
 .title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: #add8e6;
+  padding: 0.8rem 3.3rem;
 
   @media only screen and (max-width: $mobile-size) {
     justify-content: center;
@@ -157,9 +160,14 @@ label {
     }
   }
 
-  .logged-user {
-    vertical-align: middle;
+  .user-name {
     display: inline;
+    text-align: end;
+
+    & > * {
+      margin: 0;
+    }
+    
 
     i {
       padding-right: 0.5rem;
@@ -168,7 +176,6 @@ label {
 
   & > * {
     margin: 0;
-    padding: 1rem 3.3rem;
   }
 }
 

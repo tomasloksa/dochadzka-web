@@ -20,7 +20,8 @@
         <h1 class="heading">Dochádzkový systém</h1>
         <div class="user-name">
             <?php if (isset($_SESSION['name'])) { ?>
-                <p class="logged-user"><i class="fas fa-user"></i> <?php echo $_SESSION['name'] ?></p>
+                <p class="logged-user"><?php echo $_SESSION['name'] ?> <i class="fas fa-user"></i></p>
+                <p><? echo $_SESSION['companyName'] ?> <i class="fas fa-building"></i></p>
             <?php } ?>
         </div>
     </div>
@@ -62,8 +63,8 @@
                             <a href="?c=manage&a=index" class="nav-link">Správa zamestnancov</a>
                         </li>
                     <?php } ?>
-                    <li class="nav-item <?php if($page == 'settings'){ echo 'active';}?>">
-                        <a href="?c=portal&a=settings" class="nav-link">Nastavenia</a>
+                    <li class="nav-item <?php if($c == 'settings'){ echo 'active';}?>">
+                        <a href="?c=settings&a=index" class="nav-link">Nastavenia</a>
                     </li>
                     <li class="nav-item <?php if($page == 'logout'){ echo 'active';}?>">
                         <a href="?c=auth&a=logout" class="nav-link">Odhlásenie</a>

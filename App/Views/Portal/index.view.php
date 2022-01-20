@@ -41,7 +41,9 @@
                 <?php $action = $data['logs'][$day - 1][$i] ?>
                   <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
                     <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Action::ActionStrings[$action->action] ?>
-                    <i class="far fa-edit"></i>
+                    <?php if (\App\Auth::isAdmin()) { ?>
+                      <i class="far fa-edit"></i>
+                    <?php } ?>
                   </td>
               <?php } else { echo "<td></td>"; } ?>
             <?php } ?>

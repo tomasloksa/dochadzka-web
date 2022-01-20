@@ -25,7 +25,7 @@ class ManageController extends AControllerRedirect
 
         $employeeId = $this->request()->getValue('id');
         $employee = Employee::getOne($employeeId);
-        if ($_SESSION['companyId'] == $employee->companyId) {
+        if ($_SESSION['company']->id == $employee->companyId) {
             $employee->delete();
             $this->redirect('manage');
         } else {
@@ -41,7 +41,7 @@ class ManageController extends AControllerRedirect
         if (isset($id)) {
             $employee = Employee::getOne($id);
 
-            if ($_SESSION['companyId'] == $employee->companyId) {
+            if ($_SESSION['company']->id == $employee->companyId) {
                 return $this->html([
                     'error' => $this->request()->getValue('error'),
                     'employee' => $employee
@@ -49,7 +49,9 @@ class ManageController extends AControllerRedirect
             }
         }
 
-        return $this->html();
+        return $this->html([
+            'error' => $this->request()->getValue('error'),
+        ]);
     }
 
     public function saveEmployee() 
@@ -62,19 +64,25 @@ class ManageController extends AControllerRedirect
             $employee = Employee::getOne($id);
         } else {
             $employee = new Employee;
-            $employee->companyId = $_SESSION['companyId'];
+            $employee->companyId = $_SESSION['company']->id;
             $employee->password = password_hash($this->request()->getValue('surname'), PASSWORD_DEFAULT);
         }
 
-        $employee->name = $this->request()->getValue('name');
-        $employee->surname = $this->request()->getValue('surname');
-        $employee->mail = $this->request()->getValue('mail');
-        $employee->save();
-
-        if ($employee->id == $_SESSION['id']) {
-            Auth::setSessionData($employee);
+        $mail = $this->request()->getValue('mail');
+        $usersWithEmail = Employee::getAll('mail = ?', [$mail]);
+        if (!empty($usersWithEmail)) {
+            $this->redirect('manage', "employeeEdit", ['error' => 'Používateľ so zadaným emailom už existuje!']);
+        } else {
+            $employee->name = $this->request()->getValue('name');
+            $employee->surname = $this->request()->getValue('surname');
+            $employee->mail = $this->request()->getValue('mail');
+            $employee->save();
+    
+            if ($employee->id == $_SESSION['id']) {
+                Auth::setSessionData($employee);
+            }
+    
+            $this->redirect('manage');
         }
-
-        $this->redirect('manage');
     }
 }

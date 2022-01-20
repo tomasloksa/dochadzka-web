@@ -20,7 +20,7 @@ function validatePasswordMatch() {
     var pass2 = document.getElementById('newPasswordRepeat').value;
 
     var errorDiv = document.getElementById('passwordMatchError');
-    var button = document.getElementById('submitButton');
+    var button = document.getElementById('submitPasswordButton');
     
     if (pass1 != pass2 && pass2 != "") {
         errorDiv.innerText = "Heslá sa nezhodujú!";

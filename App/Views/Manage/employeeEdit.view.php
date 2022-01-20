@@ -1,6 +1,6 @@
 <?php /** @var Array $data */ ?>
 
-<?php if (isset($data['error'])) { ?>
+<?php if ($data['error'] != "") { ?>
     <div class="alert alert-danger" role="alert">
         <?= $data['error'] ?>
     </div>

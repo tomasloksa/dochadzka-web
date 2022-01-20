@@ -13,8 +13,19 @@
 <?php } ?>
 
 <div class="center">
-    <h2>Zmena hesla</h2>
-    <form method="post" id="passwordForm" action="?c=portal&a=changePassword">
+    <?php if ($_SESSION['role'] == 1) { ?>
+    <h2><b>Zmena názvu firmy</b></h2>
+    <form method="post" id="companyNameForm" action="?c=settings&a=changeCompanyName">
+        <div class="form-group">
+            <label>Nový názov firmy</label>
+            <input type="text" id="companyName" name="companyName" maxlength="255" class="form-control" required>
+        </div>
+        <input id="submitCompanyButton" type="submit" class="btn btn-primary" value="Ulož názov">
+    </form>
+    <?php } ?>
+
+    <h2><b>Zmena hesla</b></h2>
+    <form method="post" id="passwordForm" action="?c=settings&a=changePassword">
         <div class="form-group">
             <label>Pôvodné heslo</label>
             <input type="password" id="oldPassword" name="oldPassword" maxlength="255" class="form-control" required>
@@ -28,6 +39,6 @@
             <input type="password" id="newPasswordRepeat" name="newPasswordRepeat" class="form-control" maxlength="255" onkeyup="validatePasswordMatch();" required>
         </div>
         <div id="passwordMatchError"></div>
-        <input id="submitButton" type="submit" class="btn btn-primary" value="Ulož">
+        <input id="submitPasswordButton" type="submit" class="btn btn-primary" value="Ulož heslo">
     </form>
 </div>

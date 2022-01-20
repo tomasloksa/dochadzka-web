@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Company;
 use App\Models\Employee;
 
 class Auth
@@ -25,6 +26,9 @@ class Auth
         $_SESSION['id'] = $user->id;
         $_SESSION['role'] = $user->role;
         $_SESSION['companyId'] = $user->companyId;
+
+        $company = Company::getOne($user->companyId);
+        $_SESSION['companyName'] = $company->name;
     }
 
     public static function isLogged()
