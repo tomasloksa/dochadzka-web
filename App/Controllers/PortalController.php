@@ -24,11 +24,18 @@ class PortalController extends AControllerRedirect
             $name = $_SESSION['name'];
         }
             
+        $dayChanged = $this->request()->getValue('dayChanged') ?? -1;
+
         $month = $this->request()->getValue('month') ?? date('m');
         $year = $this->request()->getValue('year') ?? date('Y');
 
-        $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND MONTH(time) = ? AND YEAR(time) = ? ORDER BY time ASC", [ $id, $month, $year ]);
-        $attendanceDays = AttendanceDay::getAll("employeeId = ? AND month = ? AND year = ?", [ $id, $month, $year ]);
+        if ($dayChanged == -1) {
+            $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND MONTH(time) = ? AND YEAR(time) = ? ORDER BY time ASC", [ $id, $month, $year ]);
+            $attendanceDays = AttendanceDay::getAll("employeeId = ? AND month = ? AND year = ?", [ $id, $month, $year ]);
+        } else {
+            $attendanceLogs = AttendanceLog::getAll("employeeId = ? AND DAY(time) = ? AND MONTH(time) = ? AND YEAR(time) = ? ORDER BY time ASC", [ $id, $dayChanged + 1, $month, $year ]);
+            $attendanceDays = AttendanceDay::getAll("employeeId = ? AND day = ? AND month = ? AND year = ?", [ $id, $dayChanged + 1, $month, $year ]);
+        }
 
         $actionsByDay = $this->getActionsByDay($attendanceLogs);
 
@@ -40,7 +47,12 @@ class PortalController extends AControllerRedirect
         for ($i = 0; $i < 31; $i++) {
             if ($dayTypes[$i] == null) {
                 $dayTypes[$i] = new AttendanceDay();
+
+                if ($this->isWeekend($i + 1, $month, $year)) {
+                    $dayTypes[$i]->dayType = 1;
+                }
             }
+
             $dayTypes[$i]->totalTime = new DateTime();
             $dayTypes[$i]->totalTime->setTime(0, 0, 0);
 
@@ -51,15 +63,22 @@ class PortalController extends AControllerRedirect
                     || $action->action == Action::SluzobnaCesta->value)) {
                     if (is_null($start)) {
                         $start = new DateTime($action->time);
+                    } else {
+                        $dayTypes[$i]->valid = false;
                     }
                 } else if (!is_null($start)) {
                     $end = new DateTime($action->time);
                     $diff = $start->diff($end);
                     $dayTypes[$i]->totalTime->add($diff);
                     $start = null;
+                } else {
+                    $dayTypes[$i]->valid = false;
                 }
             }
+        }
 
+        if ($dayChanged >= 0) {
+            return $this->json($dayTypes[$dayChanged]);
         }
         
         return $this->html([
@@ -78,7 +97,11 @@ class PortalController extends AControllerRedirect
         $this->redirectIfNotAdmin();
 
         $id = $this->request()->getValue('id');
-        fb($id);
+
+        $employeeId = $this->request()->getValue('userId');
+        $employee = Employee::getOne($employeeId);
+        $this->redirectIfNotSameCompany($employee->companyId);
+        
         if ($id > 0) {
           $attendanceDay = \App\Models\AttendanceDay::getOne($id);
         } else {
@@ -86,7 +109,7 @@ class PortalController extends AControllerRedirect
           $attendanceDay->day = $this->request()->getValue('day');
           $attendanceDay->month = $this->request()->getValue('month');
           $attendanceDay->year = $this->request()->getValue('year');
-          $attendanceDay->employeeId = $this->request()->getValue('userId');
+          $attendanceDay->employeeId = $employeeId;
         }
 
         $attendanceDay->dayType = array_search($this->request()->getValue('dayType'), DayType::DAYTYPE);
@@ -102,13 +125,23 @@ class PortalController extends AControllerRedirect
         $id = $this->request()->getValue('id');
         if(!empty($id)) {
             $action = \App\Models\AttendanceLog::getOne($id);
+
+            $employee = Employee::getOne($action->employeeId);
+            $this->redirectIfNotSameCompany($employee->companyId);
+
             if ($this->request()->getValue('action') == -1) {
               $action->delete();
-              return $this->redirect("portal", "index", ['id' => $action->employeeId]);
+              $day = date("j", strtotime($action->time)) - 1;
+              return $this->redirect("portal", "index", ['id' => $action->employeeId, 'dayChanged' => $day]);
             }
         } else {
             $action = new \App\Models\AttendanceLog();
-            $action->employeeId = $this->request()->getValue('userId');
+
+            $employeeId = $this->request()->getValue('userId');
+            $action->employeeId = $employeeId;
+
+            $employee = Employee::getOne($employeeId);
+            $this->redirectIfNotSameCompany($employee->companyId);
         }
         $action->time = $this->request()->getValue('time');
         $action->action = $this->request()->getValue('action');
@@ -151,5 +184,13 @@ class PortalController extends AControllerRedirect
         }
 
         return $actionsByDay;
+    }
+
+    private function isWeekend($day, $month, $year)
+    {
+        $time = mktime(0, 0, 0, $month, $day, $year);
+        $weekday = date('w', $time);
+
+        return ($weekday == 0 || $weekday == 6);
     }
 }

@@ -32,7 +32,7 @@ h2 {
 form {
   max-width: 25rem;
   margin: inherit;
-  padding-bottom: 2rem;
+  /*padding-bottom: 2rem;*/
 }
 
 label {
@@ -225,6 +225,10 @@ label {
   width: 20rem;
 }
 
+.invalid {
+  background-color: lightcoral;
+}
+
 .day-type-select {
   display: flex;
   align-content: center;
@@ -268,4 +272,8 @@ label {
 
 .current-month {
   min-width: 13rem;
+}
+
+#companyNameForm {
+  padding-bottom: 2rem;
 }

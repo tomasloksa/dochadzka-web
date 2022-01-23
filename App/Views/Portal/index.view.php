@@ -25,7 +25,7 @@
       </thead>
       <tbody>
       <?php for ($day = 1; $day <= date('t', mktime(0, 0, 0, $data['month'], 1, $data['year'])); $day++) { ?>
-        <tr id="row<?=$day?>">
+        <tr class="<?php if(!$data['days'][$day - 1]->valid) echo 'invalid';?>" id="row<?=$day?>">
             <!-- HEADER -->
             <th class="day-header" scope="row"><?= $day ?></th>
 
@@ -39,7 +39,7 @@
             <?php for ($i = 0; $i < $max; $i++) { ?>
               <?php if ($i < count((array)$data['logs'][$day - 1])) { ?>
                 <?php $action = $data['logs'][$day - 1][$i] ?>
-                  <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
+                  <td <?php if (\App\Auth::isAdmin()) { ?> onclick="editAction(<?= $i ?>, <?= $day ?>, '<?= $action->time ?>', <?= $action->employeeId ?>, <?= $action->id ?>, <?= $action->action ?>)" <?php } ?> class="action">
                     <?= explode(" ", $action->time)[1] ?> <br> <?= App\Models\Action::ActionStrings[$action->action] ?>
                     <?php if (\App\Auth::isAdmin()) { ?>
                       <i class="far fa-edit"></i>
@@ -50,7 +50,7 @@
 
             <!-- NEW ACTION -->
             <?php if (\App\Auth::isAdmin()) { ?>
-              <td class="action" onclick="editAction(<?= $i + 1 ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
+              <td class="action" onclick="editAction(<?= $i + 1 ?>, <?= $day ?>, '<?=$data['year']?>-<?=$data['month']?>-<?=$day?>', <?= $data['userId'] ?>)"><i class="fas fa-plus"></i></td>
             <?php } ?>
             
             <!-- TOTAL -->

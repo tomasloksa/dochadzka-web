@@ -21,15 +21,26 @@ abstract class AControllerRedirect extends \App\Core\AControllerBase
     protected function redirectIfNotLogged() 
     {
         if (!Auth::isLogged()) {
-            exit("403 Access forbidden");
+            $this->show403Error();
         }
     }
 
     protected function redirectIfNotAdmin()
     {
         if (!Auth::isAdmin()) {
-            header("HTTP/1.1 403 Forbidden" );
-            exit("403 Access forbidden");
+            $this->show403Error();
         }
+    }
+
+    protected function redirectIfNotSameCompany($companyId)
+    {
+        if ($companyId != $_SESSION['companyId']) {
+            $this->show403Error();
+        }
+    }
+
+    private function show403Error() {
+        header("HTTP/1.1 403 Forbidden" );
+        exit("403 Access forbidden");
     }
 }

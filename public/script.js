@@ -33,10 +33,12 @@ function validatePasswordMatch() {
     }
 }
 
-function deleteModal(employeeName) {
+function deleteModal(employeeName, employeeId) {
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
     let name = document.getElementById('employeeName');
     name.innerText = employeeName;
+
+    $('#deleteButton').attr("href", "?c=manage&a=removeEmployee&id=" + employeeId)
 }
 
 function changeDayType(paId, paDay, paMonth, paYear, paUserId) {
@@ -50,7 +52,7 @@ function changeDayType(paId, paDay, paMonth, paYear, paUserId) {
     $('#dayTypeHeaderDate').text(paDay + "." + paMonth + "." + paYear);
 }
 
-function editAction(paCol, paTime, paUserId, paId = null, paAction = -1) {
+function editAction(paCol, paRow, paTime, paUserId, paId = null, paAction = -1) {
     modal = new bootstrap.Modal(document.getElementById('changeActionModal'));
     modal.show();
     time = new Date(paTime);
@@ -58,6 +60,7 @@ function editAction(paCol, paTime, paUserId, paId = null, paAction = -1) {
     userId = paUserId;
     action = paAction;
     column = paCol;
+    row = paRow;
       
     if (paAction == -1) {
       var now = new Date();
@@ -130,11 +133,14 @@ $(document).ready(function(e) {
         url: "?c=portal&a=editAction",
         data: { id, action: -1 },
         success: function(response) {
-          $("body").html(response);
+          let hoursWorked = new Date(Date.parse(response['totalTime']['date']));
+          let tableRow = $("#row" + row);
+          tableRow.children("td:last").text(hoursWorked.getHours() + ":" + (hoursWorked.getMinutes() < 10 ? '0':'') + hoursWorked.getMinutes());
+          tableRow.children("td:nth-child(" + (column + 3) + ")").replaceWith('<td></td>');
           modal.hide();
         },
         error: function() {
-            alert('Hodnotu sa nepodarilo uložiť!');
+            alert('Hodnotu sa nepodarilo vymazať!');
         }
     });
     return false;

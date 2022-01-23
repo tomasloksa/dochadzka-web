@@ -13,7 +13,8 @@ class AttendanceDay extends \App\Core\Model
         public int $month = 0,
         public int $year = 0,
         public int $employeeId = 0,
-        public ?DateTime $totalTime = null
+        public ?DateTime $totalTime = null,
+        public ?bool $valid = true
     ) { }
 
     static public function setDbColumns(): array

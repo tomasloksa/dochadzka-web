@@ -28,7 +28,7 @@ CREATE TABLE `attendance` (
                            `time` datetime NOT NULL,
                            `action` smallint NOT NULL,
                            PRIMARY KEY (`id`),
-                           FOREIGN KEY (`employeeId`) REFERENCES employee(id)
+                           CONSTRAINT `FK_attendance_user` FOREIGN KEY (`employeeId`) REFERENCES employee(id) ON DELETE CASCADE
 ) AUTO_INCREMENT=1;
 
 CREATE TABLE `attendanceDay` (
@@ -39,5 +39,5 @@ CREATE TABLE `attendanceDay` (
                            `employeeId` mediumint(8) unsigned NULL,
                            `dayType` tinyint NOT NULL,
                            PRIMARY KEY (`id`),
-                           FOREIGN KEY (`employeeId`) REFERENCES employee(id)
-);
+                           CONSTRAINT `FK_attendanceDay_user` FOREIGN KEY (`employeeId`) REFERENCES employee(id) ON DELETE CASCADE
+) AUTO_INCREMENT=1;;

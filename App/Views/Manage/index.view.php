@@ -43,7 +43,7 @@
                                 <a href="?c=manage&a=employeeEdit&id=<?= $employee->id ?>" class="btn btn-warning manage-btn">
                                     Upraviť
                                 </a>
-                                <a onclick="deleteModal('<?= $employee->name ?> <?= $employee->surname ?>')"
+                                <a onclick="deleteModal('<?= $employee->name ?> <?= $employee->surname ?>', <?= $employee->id ?>)"
                                    class="btn btn-danger manage-btn">
                                     Odstrániť
                                 </a>
@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Návrat</button>
-                <a href="?c=manage&a=removeEmployee&id=<?= $employee->id ?>" class="btn btn-danger">Odstrániť</a>
+                <a id="deleteButton" class="btn btn-danger">Odstrániť</a>
             </div>
         </div>
     </div>

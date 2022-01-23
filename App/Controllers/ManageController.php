@@ -11,7 +11,7 @@ class ManageController extends AControllerRedirect
     {
         $this->redirectIfNotAdmin();
 
-        $employees = Employee::getAll();
+        $employees = Employee::getAll("companyId = ?", [ $_SESSION['companyId'] ]);
 
         return $this->html([
             'error' => $this->request()->getValue('error'),
@@ -25,11 +25,15 @@ class ManageController extends AControllerRedirect
 
         $employeeId = $this->request()->getValue('id');
         $employee = Employee::getOne($employeeId);
-        if ($_SESSION['company']->id == $employee->companyId) {
+        $this->redirectIfNotSameCompany($employee->companyId);
+        fb($employee);
+
+        if ($employee->role == 0) {
+            fb("deleting");
             $employee->delete();
             $this->redirect('manage');
         } else {
-            $this->redirect('manage', ['error' => 'Nie je možné vymazať vedúceho zamestnanca!']);
+            $this->redirect('manage', 'index', ['error' => 'Nie je možné vymazať vedúceho zamestnanca!']);
         }
     }
 
@@ -38,10 +42,11 @@ class ManageController extends AControllerRedirect
         $this->redirectIfNotAdmin();
 
         $id = $this->request()->getValue('id');
-        if (isset($id)) {
+        if (isset($id) && $id > 0) {
             $employee = Employee::getOne($id);
+            $this->redirectIfNotSameCompany($employee->companyId);
 
-            if ($_SESSION['company']->id == $employee->companyId) {
+            if ($_SESSION['companyId'] == $employee->companyId) {
                 return $this->html([
                     'error' => $this->request()->getValue('error'),
                     'employee' => $employee
@@ -62,16 +67,19 @@ class ManageController extends AControllerRedirect
 
         if ($id > 0) {
             $employee = Employee::getOne($id);
+            $this->redirectIfNotSameCompany($employee->companyId);
         } else {
             $employee = new Employee;
-            $employee->companyId = $_SESSION['company']->id;
+            $employee->companyId = $_SESSION['companyId'];
             $employee->password = password_hash($this->request()->getValue('surname'), PASSWORD_DEFAULT);
         }
 
         $mail = $this->request()->getValue('mail');
-        $usersWithEmail = Employee::getAll('mail = ?', [$mail]);
+        if ($mail != $employee->mail) {
+            $usersWithEmail = Employee::getAll('mail = ?', [$mail]);
+        }
         if (!empty($usersWithEmail)) {
-            $this->redirect('manage', "employeeEdit", ['error' => 'Používateľ so zadaným emailom už existuje!']);
+            $this->redirect('manage', "employeeEdit", ['id' => $id, 'error' => 'Používateľ so zadaným emailom už existuje!']);
         } else {
             $employee->name = $this->request()->getValue('name');
             $employee->surname = $this->request()->getValue('surname');
