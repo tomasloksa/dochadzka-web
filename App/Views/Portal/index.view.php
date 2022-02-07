@@ -17,7 +17,7 @@
             for ($day = 0; $day < 31; $day++) {
               $max = max($max, count((array)$data['logs'][$day]));
             }
-            for ($i = 0; $i < $max; $i++) { ?>
+            for ($i = 0; $i <= $max; $i++) { ?>
               <th scope="col"></th>
           <?php } ?>
           <th scope="col">Spolu</th>

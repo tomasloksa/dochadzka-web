@@ -4,5 +4,5 @@
   <li>Jednoduchá možnosť úpravy</li>
   <li>Možnosť exportu Mesačného/Mzdového výkazu a ďalších...</li>
 </ul>
-<img class="img-preview center" src="public/img/dochadzka.png" alt="Ukážka dochádzkového systému">
+<img class="img-preview center" src="public/img/dochadzka.png" alt="Ukážka dochádzkového systému"><br>
 <p>Teraz, už aj s novou webovou aplikáciou, cez ktorú je možné zadávať dochádzku jednoducho, nech ste kdekoľvek.</p>
