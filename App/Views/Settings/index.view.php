@@ -18,7 +18,7 @@
     <form method="post" id="companyNameForm" action="?c=settings&a=changeCompanyName">
         <div class="form-group">
             <label>Nový názov firmy</label>
-            <input type="text" id="companyName" name="companyName" maxlength="255" class="form-control" required>
+            <input type="text" id="companyName" name="companyName" maxlength="255" class="form-control" value="<? echo $_SESSION['companyName'] ?>" required>
         </div>
         <input id="submitCompanyButton" type="submit" class="btn btn-primary" value="Ulož názov">
     </form>
