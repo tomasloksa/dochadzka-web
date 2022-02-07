@@ -86,7 +86,6 @@ class PortalController extends AControllerRedirect
             'name' => $name,
             'userId' => $id,
             'days' => $dayTypes,
-            'dayTypes' => DayType::DAYTYPE,
             'month' => $month,
             'year' => $year
         ]);
@@ -112,7 +111,7 @@ class PortalController extends AControllerRedirect
           $attendanceDay->employeeId = $employeeId;
         }
 
-        $attendanceDay->dayType = array_search($this->request()->getValue('dayType'), DayType::DAYTYPE);
+        $attendanceDay->dayType = $this->request()->getValue('dayType');
         $attendanceDay->id = $attendanceDay->save();
 
         return $this->json($attendanceDay);

@@ -92,10 +92,11 @@ $(document).ready(function(e) {
   $('.day-type').click(function(e) {
       e.preventDefault();
       let dayType = $(this).val();
+      let index = $(this).index();
       $.ajax({
           type: "POST",
           url: "?c=portal&a=setDayType",
-          data: { id, day, month, year, dayType, userId },
+          data: { id, day, month, year, dayType: index, userId },
           success: function() {
             $('#changeDayType' + day).text(dayType);
             modal.hide();

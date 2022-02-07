@@ -1,12 +1,12 @@
-CREATE TABLE company (
+CREATE TABLE `company` (
                         `id` mediumint(8) unsigned NOT NULL auto_increment,
-                        `name` varchar(255) default NULL,
+                        `name` varchar(255) NOT NULL,
                         PRIMARY KEY (`id`)
 ) AUTO_INCREMENT=1;
 
-INSERT INTO company (`name`) VALUES ('testovacia firma'), ('druha firma');
+INSERT INTO company(`id`, `name`) VALUES (1, "testovacia firma"), (2, "druha firma");
 
-CREATE TABLE employee (
+CREATE TABLE `employee` (
                          `id` mediumint(8) unsigned NOT NULL auto_increment,
                          `companyId` mediumint(8) unsigned NOT NULL,
                          `name` varchar(255) NOT NULL,
@@ -18,9 +18,7 @@ CREATE TABLE employee (
                          FOREIGN KEY (`companyId`) REFERENCES company(id)
 ) AUTO_INCREMENT=1;
 
-INSERT INTO employee VALUES  (1, 1, 'Tomáš', 'Lokša', 'tomiloksa@gmail.com', '$2y$10$Th1rTraq5Yuf1H30Fck/3upXNTLQfvovqgMeMEvDRwFpJAcRnfiCO', 1);
--- INSERT INTO employee (`companyId`,`name`,`surname`,`mail`) VALUES (1, 'Samuel','Hamilton','ornare@sitametante.co.uk'),(1, 'Porter','Faith','metus.urna@lacus.net'),(1, 'Harlan','Hollee','vel@feugiat.com'),(1, 'Duncan','April','dolor.nonummy.ac@pedeNuncsed.edu'),(1, 'Robin','Hilda','pellentesque.eget@Duis.co.uk'),(1, 'Tobias','Kendall','mus@tristiquesenectus.com'),(1, 'Hu','Caldwell','porta.elit@turpisvitaepurus.net'),(1, 'Keegan','Simone','commodo.hendrerit.Donec@liberoProinmi.org'),(1, 'Wanda','Carla','malesuada.fames.ac@odiovelest.com'),(1, 'Veda','Shelley','at@nonmassanon.com');
--- INSERT INTO employee (`companyId`,`name`,`surname`,`mail`) VALUES (2, 'Hadley','Carly','turpis.Aliquam@doloregestasrhoncus.com'),(1, 'Quincy','Suki','ornare@accumsanlaoreetipsum.co.uk'),(1, 'Joseph','Brooke','Proin@NullaaliquetProin.net'),(1, 'Beau','Regan','molestie.sodales@malesuadavelvenenatis.com'),(1, 'Briar','Olympia','auctor@elit.org'),(1, 'Cameron','Bruce','sem.Pellentesque@nuncQuisque.com'),(1, 'Avram','Denise','enim@ullamcorpernisl.net'),(1, 'Lareina','Ella','turpis@ante.co.uk'),(1, 'Hannah','Troy','et.eros.Proin@eget.co.uk'),(1, 'Joan','Dara','mollis@Nuncullamcorper.net');
+INSERT INTO `employee` VALUES  (1, 1, "Tomáš", "Lokša", "tomiloksa@gmail.com", "$2y$10$Th1rTraq5Yuf1H30Fck/3upXNTLQfvovqgMeMEvDRwFpJAcRnfiCO", 1);
 
 CREATE TABLE `attendance` (
                            `id` int unsigned NOT NULL auto_increment,
@@ -40,4 +38,4 @@ CREATE TABLE `attendanceDay` (
                            `dayType` tinyint NOT NULL,
                            PRIMARY KEY (`id`),
                            CONSTRAINT `FK_attendanceDay_user` FOREIGN KEY (`employeeId`) REFERENCES employee(id) ON DELETE CASCADE
-) AUTO_INCREMENT=1;;
+) AUTO_INCREMENT=1;
